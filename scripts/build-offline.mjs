@@ -1,21 +1,42 @@
-import { readdir, readFile, writeFile, copyFile } from 'node:fs/promises';
-import { join } from 'node:path';
-import { createHash } from 'node:crypto';
+import { readdir, readFile, writeFile, rm } from 'node:fs/promises';
+import { join, relative, resolve, sep } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { randomBytes } from 'node:crypto';
 
 async function walk(dir) {
   const files = [];
   for (const entry of await readdir(dir, { withFileTypes: true })) {
     const path = join(dir, entry.name);
     if (entry.isDirectory()) files.push(...await walk(path));
-    else files.push(path.replaceAll('\\', '/'));
+    else files.push(path);
   }
   return files;
 }
-const buildId = (await readFile('.next/BUILD_ID', 'utf8')).trim();
-const version = createHash('sha256').update(buildId).digest('hex').slice(0,12);
-await copyFile('.next/server/app/index.html', 'public/offline-shell.html');
-const assets = (await walk('.next/static')).filter(path => /\.(js|css|woff2?)$/.test(path)).map(path => path.replace('.next/static', '/_next/static'));
-const precache = ['/offline-shell.html', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/maskable-512.png', '/icons/apple-touch-icon.png', ...assets];
-const template = await readFile('scripts/sw-template.js', 'utf8');
-await writeFile('public/sw.js', template.replace('__CACHE_VERSION__', version).replace('__PRECACHE__', JSON.stringify(precache)));
-console.log(`Offline shell ready: ${assets.length} application assets, cache ${version}.`);
+/** Runs after compilation, before prerendering and the Vercel adapter.
+ * No dependency on BUILD_ID or internal server HTML, neither of which is portable
+ * across Next.js build phases or hosting adapters. Cache the served homepage instead.
+ */
+export async function buildOfflineWorker({ projectDir = process.cwd(), distDir = join(projectDir, '.next') } = {}) {
+  const staticDir = join(distDir, 'static');
+  const assets = (await walk(staticDir))
+    .filter(path => /\.(js|css|woff2?)$/.test(path))
+    .map(path => '/_next/static/' + relative(staticDir, path).split(sep).join('/'))
+    .sort();
+  if (!assets.some(path => path.endsWith('.js')) || !assets.some(path => path.endsWith('.css'))) {
+    throw new Error('Offline worker generation needs compiled Next.js JS and CSS assets.');
+  }
+  const version = randomBytes(8).toString('hex');
+  const precache = ['/', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/maskable-512.png', '/icons/apple-touch-icon.png', ...assets];
+  const template = await readFile(join(projectDir, 'scripts/sw-template.js'), 'utf8');
+  const worker = template.replace('__CACHE_VERSION__', version).replace('__PRECACHE__', JSON.stringify(precache));
+  await writeFile(join(projectDir, 'public/sw.js'), worker);
+  await rm(join(projectDir, 'public/offline-shell.html'), { force: true });
+  console.log(`Offline cache ready: homepage + ${assets.length} application assets, cache ${version}.`);
+  return { assets, precache, version };
+}
+
+if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {
+  const projectDir = resolve(process.argv[2] || process.cwd());
+  const distDir = resolve(process.argv[3] || join(projectDir, '.next'));
+  await buildOfflineWorker({ projectDir, distDir });
+}

@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --hostname 0.0.0.0",
-    "build": "next build --webpack && node scripts/build-offline.mjs",
+    "build": "next build --webpack",
     "start": "next start --hostname 0.0.0.0",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test tests/storage.test.ts tests/rules.test.ts tests/catch-id.test.ts"
+    "test": "tsx --test tests/storage.test.ts tests/rules.test.ts tests/catch-id.test.ts tests/offline-build.test.mjs"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.3.0",

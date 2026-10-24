@@ -20,7 +20,9 @@ npm run build
 npm start
 ```
 
-The build script builds Next.js and then generates a versioned service worker with every application JS, CSS and font asset plus an independent prerendered HTML shell. On the first online visit it caches the complete app; after the screen status bar says **OFFLINE READY**, the app can reopen and operate offline. Caches update with each production build. A service worker installation fails atomically if any precache resource is unavailable. Use a dedicated origin for the app and serve `/sw.js` and `/offline-shell.html` with the built public assets.
+The Next.js `runAfterProductionCompile` hook generates a versioned service worker before hosting adapters collect or relocate the build output. It lists the compiled JS, CSS and font assets without reading internal server HTML or `BUILD_ID`. On the first online visit, the worker caches the served homepage and those assets. After the screen status bar says **OFFLINE READY**, the app can reopen and operate offline. Every production build gets a new cache version. Installation fails if any required resource cannot be cached. Use a dedicated origin and serve the generated `/sw.js` with the built public assets.
+
+On Vercel, use the standard **Next.js** preset and **npm run build**. No output-directory override, server HTML copying or extra post-build command is needed. The worker is generated before Vercel's `onBuildComplete` adapter stage, so it is ready for deployment packaging.
 
 The web manifest includes 192px and 512px icons, a maskable icon and an Apple touch icon. HTTPS is required outside localhost for service workers and installation. Install from the in-app footer, the browser menu, or Safari's Share → Add to Home Screen. The install dialog explains platform differences. Installation and eviction behavior depend on the browser.
 
