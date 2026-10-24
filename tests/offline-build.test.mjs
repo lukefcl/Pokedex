@@ -6,6 +6,16 @@ import { join } from 'node:path';
 import vm from 'node:vm';
 import { buildOfflineWorker } from '../scripts/build-offline.mjs';
 
+test('app updates preserve optional scanner models and serve them offline',async()=>{
+ const handlers=new Map(),deleted=[];let claimed=false;
+ const self={location:{origin:'https://findex.test'},addEventListener:(name,fn)=>handlers.set(name,fn),clients:{claim:async()=>{claimed=true;}}};
+ const modelRequest={method:'GET',url:'https://findex.test/scanner-model/v1/mobileclip_s0/onnx/vision_model.onnx',mode:'cors'};
+ const caches={keys:async()=>['findex-old-app','findex-ai-mobileclip-v2','unrelated-cache'],delete:async key=>deleted.push(key),open:async key=>({match:async request=>key==='findex-ai-mobileclip-v2'&&request.url===modelRequest.url?{body:'cached model'}:undefined})};
+ const source=(await readFile(new URL('../scripts/sw-template.js',import.meta.url),'utf8')).replace('__PRECACHE__','[]').replace('__CACHE_VERSION__','qa');
+ vm.runInNewContext(source,{self,caches,URL,fetch:async()=>{throw new Error('Offline');}});let work;handlers.get('activate')({waitUntil:p=>{work=p;}});await work;assert.deepEqual(deleted,['findex-old-app']);assert.equal(claimed,true);
+ handlers.get('fetch')({request:modelRequest,respondWith:p=>{work=p;}});assert.equal((await work).body,'cached model');
+});
+
 test('push displays a notification and opens only the local mates feed',async()=>{
   const handlers=new Map(),shown=[],opened=[],messages=[];let focused=false,closed=false;
   const client={url:'https://findex.test/',focus:async()=>{focused=true;},postMessage:value=>messages.push(value)};

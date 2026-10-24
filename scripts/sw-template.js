@@ -4,12 +4,18 @@ self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS.map(url => new Request(url, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('findex-') && key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim()));
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('findex-') && !key.startsWith('findex-ai-') && key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+  // Optional scanner models are installed by explicit user action. Keep that
+  // cache separate from app updates and never cache photographs or camera data.
+  if (url.pathname.startsWith('/scanner-model/v1/') || url.pathname.startsWith('/scanner-runtime/4.3.1/')) {
+    event.respondWith(caches.open('findex-ai-mobileclip-v2').then(async cache => (await cache.match(event.request)) || fetch(event.request)));
+    return;
+  }
   if (event.request.mode === 'navigate') {
     event.respondWith(fetch(event.request).catch(() => caches.open(CACHE).then(cache => cache.match('/'))));
     return;

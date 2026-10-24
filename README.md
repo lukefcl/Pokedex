@@ -78,3 +78,7 @@ Final distributable assets live in **public/sprites/**. They do not require imag
 `scripts/prepare-catalogue.mjs` documents the initial import's curated summaries and stable ID mapping; it expects the initial legacy snapshot in the local research cache. Edit `lib/species.json` directly for editorial updates. Original research pages, photos and full-resolution generated masters are not required by the app or committed.
 
 The v2 record schema stores an optional `kind` (`catch` or `sighting`) while preserving the IndexedDB database and all existing IDs. Missing kinds in old records mean catch. Marine mammal entries always resolve to sighting; their form omits fishing areas, length and release fields. Editing, filtering, export/import and photo-free records use the same local journal. Nothing is automatically reported to DOC.
+
+## Optional on-device species scanner
+
+Use **Guide → Scan a species** or **Identify my photo** in a catch form. Prepare the approximately 61 MB scanner once, then use the camera or a photo to get possible species matches. Recognition runs locally in a worker and can work offline after setup. No API key, account or photo upload is needed. Confirm the species and catch yourself before saving; the tool is experimental and cannot establish legal harvest eligibility. See [SCANNER.md](SCANNER.md) for privacy, model details, deployment and accuracy limitations.

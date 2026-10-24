@@ -8,9 +8,11 @@ import {areas,getRule,sizeLabel,bagLabel} from '@/lib/rules';
 import {Dialog,CatchPhoto,today} from './screen-ui';
 import SpeciesGuidance from './species-guidance';
 import {useSocial} from './social/provider';
+import SpeciesScanner from './scanner/species-scanner';
+import {ScanLine} from 'lucide-react';
 
-type Props={selected:Fish;initial?:CatchRecord;mode?:RecordKind;areaId:string;close:()=>void;onSave:(record:CatchRecord,share:boolean)=>Promise<void>};
-export default function CatchForm({selected,areaId,close,onSave,initial,mode}:Props){
+type Props={selected:Fish;initial?:CatchRecord;scannedPhoto?:Blob|null;mode?:RecordKind;areaId:string;close:()=>void;onSave:(record:CatchRecord,share:boolean)=>Promise<void>};
+export default function CatchForm({selected,areaId,close,onSave,initial,mode,scannedPhoto}:Props){
   const social=useSocial();
   const [share,setShare]=useState(initial?social.isShared(initial.id):social.me?.autoShare||false);
   const [fishId,setFishId]=useState(initial?.fishId||selected.id);
@@ -25,7 +27,8 @@ export default function CatchForm({selected,areaId,close,onSave,initial,mode}:Pr
   const [length,setLength]=useState(initial?.length||'');
   const [notes,setNotes]=useState(initial?.notes||'');
   const [released,setReleased]=useState(initial?.released??true);
-  const [photo,setPhoto]=useState<Blob|null>(initial?.photo||null);
+  const [photo,setPhoto]=useState<Blob|null>(initial?initial.photo:scannedPhoto||null);
+  const [scannerOpen,setScannerOpen]=useState(false);
   const [processing,setProcessing]=useState(false);
   const [saving,setSaving]=useState(false);
   const [error,setError]=useState('');
@@ -46,10 +49,12 @@ export default function CatchForm({selected,areaId,close,onSave,initial,mode}:Pr
       if(navigator.storage?.persist)navigator.storage.persist().catch(()=>{});
     }catch(error){setError(error instanceof Error?error.message:'Could not save your record.');setSaving(false);}
   }
+  if(scannerOpen)return <Dialog title="SPECIES SCANNER" close={()=>setScannerOpen(false)}><SpeciesScanner photo={photo} onBack={()=>setScannerOpen(false)} onSelect={(identified,image)=>{setFishId(identified.id);setPhoto(image);if(identified.id==='other'&&!customName.trim())setCustomName('Unknown fish');if(identified.sightingOnly)setKind('sighting');if(identified.protected)setReleased(true);setScannerOpen(false);}}/></Dialog>;
   return <Dialog title={initial?'EDIT RECORD':sighting?'LOG A SIGHTING':'LOG A CATCH'} close={()=>{if(!saving&&!processing)close();}}><form className="dialog-content catch-form" onSubmit={submit}>
     <span className="eyebrow">ONE MORE STORY FOR THE COLLECTION</span>
     <h2>{initial?'Update your memory.':sighting?'A moment in the wild.':'A catch to remember.'}</h2>
     <p className="form-intro">{sighting?'Record what you spotted, where and how many. A photo is optional.':'Save any catch, including shellfish or something you will identify later. A photo confirms your record.'}</p>
+    <button type="button" className="secondary-button full-width catch-scan-button" disabled={saving||processing} onClick={()=>setScannerOpen(true)}><ScanLine size={17}/>{photo?'Identify my photo':'Scan to suggest a species'}</button>
     <fieldset disabled={saving||processing}>
       <label className="form-label">Record type<select aria-label="Record type" value={sighting?'sighting':'catch'} onChange={event=>setKind(event.target.value as RecordKind)}><option value="catch" disabled={entry.sightingOnly}>Catch</option><option value="sighting">Sighting</option></select></label>
       <label className="form-label">Species<select aria-label="Species" value={fishId} onChange={event=>{setFishId(event.target.value);const next=findFish(event.target.value);if(next?.sightingOnly)setKind('sighting');if(next?.protected)setReleased(true);}}><option value="other">Other / identify later</option>{fish.map(entry=><option key={entry.id} value={entry.id}>#{entry.id} · {entry.name}{entry.maori?` / ${entry.maori}`:''}{entry.sightingOnly?' · sightings only':''}</option>)}</select></label>

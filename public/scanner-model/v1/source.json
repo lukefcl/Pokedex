@@ -1,0 +1,6 @@
+{
+  "model": "Xenova/mobileclip_s0",
+  "revision": "757d59c9c6870a76a4b0306f05f5061bca15c39f",
+  "variant": "vision_model.onnx",
+  "source": "https://huggingface.co/Xenova/mobileclip_s0/tree/757d59c9c6870a76a4b0306f05f5061bca15c39f"
+}

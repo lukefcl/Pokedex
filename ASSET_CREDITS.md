@@ -592,3 +592,9 @@ Sprites: public/sprites/long-finned-pilot-whale.png and .gif
 Species information: [Department of Conservation](https://www.doc.govt.nz/nature/native-animals/marine-mammals/dolphins/pilot-whales/)
 
 Sightings only.
+
+## On-device recognition assets
+
+The optional scanner uses [Xenova/MobileCLIP-S0](https://huggingface.co/Xenova/mobileclip_s0), originally from Apple’s MobileCLIP project. The pinned revision, full-precision vision weights and Apple licence are in `public/scanner-model/v1/`. ONNX Runtime’s MIT licence is in `public/scanner-model/ONNX-RUNTIME-LICENSE.txt`; Transformers.js is Apache-2.0. The matching runtime is copied from the pinned npm package at build time.
+
+Text features cover the catalogue. Mathematical visual reference features for 58 species were computed from the credited Fish Species NZ photographs listed above, with source links retained per reference in the classifier data. These reference photographs are not included in the distributed scanner. See [SCANNER.md](SCANNER.md) for reproducibility and limitations.
