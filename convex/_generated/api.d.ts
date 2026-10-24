@@ -10,9 +10,11 @@
 
 import type * as access from "../access.js";
 import type * as auth from "../auth.js";
+import type * as discovery from "../discovery.js";
 import type * as http from "../http.js";
 import type * as invites from "../invites.js";
 import type * as push from "../push.js";
+import type * as qaCleanup from "../qaCleanup.js";
 import type * as records from "../records.js";
 import type * as sharing from "../sharing.js";
 import type * as social from "../social.js";
@@ -27,9 +29,11 @@ import type {
 declare const fullApi: ApiFromModules<{
   access: typeof access;
   auth: typeof auth;
+  discovery: typeof discovery;
   http: typeof http;
   invites: typeof invites;
   push: typeof push;
+  qaCleanup: typeof qaCleanup;
   records: typeof records;
   sharing: typeof sharing;
   social: typeof social;

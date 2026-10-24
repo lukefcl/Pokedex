@@ -28,6 +28,10 @@ invite is a different, temporary credential and cannot sign in to the account.
   Generating a new invite invalidates the old one. Requests need acceptance.
 - Only accepted mates can query each other's shared collection, recent records,
   and photo thumbnails. Unfriending revokes those queries and future alerts.
+- Suggested mates shows up to 12 friends of accepted friends, ranked by mutual
+  mate count. Only display names, species avatars and mutual counts are exposed.
+  Existing mates and pending requests are excluded. Suggestions update live;
+  sending a request rechecks the mutual connection and still needs acceptance.
 - Sharing is off initially. Each catch/sighting has a sharing switch; the online
   setup tab can opt into sharing new records or explicitly share existing ones.
   Locations and field notes are never part of the shared payload. Shared JPEGs

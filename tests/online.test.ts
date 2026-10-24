@@ -15,6 +15,7 @@ import {
 } from '../lib/social/client';
 import { validPushEndpoint, validPushKeys } from '../lib/social/push-validation';
 import type { CatchRecord } from '../lib/storage';
+import { pair } from '../convex/access';
 const modules = import.meta.glob('../convex/**/*.{ts,js}');
 const record = {
   localId: 'local-one',
@@ -56,6 +57,112 @@ async function link(f: Awaited<ReturnType<typeof fixture>>) {
   const h = await f.alice.query(api.social.home, {});
   await f.alice.mutation(api.social.answer, { id: h.incoming[0]._id, accept: true });
 }
+
+describe('suggested mates', () => {
+  async function graph() {
+    const f = await fixture();
+    const extras = await f.t.run(async (ctx) => {
+      const ids = [];
+      for (const name of ['Dory', 'Finn', 'Gills']) {
+        const userId = await ctx.db.insert('users', {});
+        await ctx.db.insert('profiles', { userId, name, avatar: '002', autoShare: false, muteAlerts: false, createdAt: Date.now() });
+        ids.push(userId);
+      }
+      // Alice's mates are Bob and Eve; Dory knows both, Finn knows Bob.
+      for (const [x, y] of [[f.ids[0], f.ids[1]], [f.ids[0], f.ids[2]], [f.ids[1], ids[0]], [f.ids[2], ids[0]], [f.ids[1], ids[1]]]) {
+        const [a, b] = pair(x, y);
+        await ctx.db.insert('friendships', { a, b, createdAt: Date.now() });
+      }
+      return ids;
+    });
+    return { ...f, extras };
+  }
+
+  it('ranks unique second-degree mates by mutual count and returns only public fields', async () => {
+    const f = await graph();
+    const result = await f.alice.query(api.discovery.suggestions, {});
+    expect(result.hasMates).toBe(true);
+    expect(result.mates).toEqual([
+      { userId: f.extras[0], name: 'Dory', avatar: '002', mutualCount: 2 },
+      { userId: f.extras[1], name: 'Finn', avatar: '002', mutualCount: 1 },
+    ]);
+    await expect(f.t.query(api.discovery.suggestions, {})).rejects.toThrow('Sign in');
+    const stranger = f.t.withIdentity({ subject: `${f.extras[2]}|session` });
+    expect(await stranger.query(api.discovery.suggestions, {})).toEqual({ mates: [], hasMates: false });
+  });
+
+  it('hides incoming and outgoing requests and restores declined suggestions', async () => {
+    const f = await graph();
+    await f.alice.mutation(api.discovery.request, { id: f.extras[0] });
+    const finn = f.t.withIdentity({ subject: `${f.extras[1]}|session` });
+    await finn.mutation(api.discovery.request, { id: f.ids[0] });
+    expect((await f.alice.query(api.discovery.suggestions, {})).mates).toEqual([]);
+    await expect(f.alice.mutation(api.discovery.request, { id: f.extras[1] })).rejects.toThrow('already sent');
+    const h = await f.alice.query(api.social.home, {});
+    await f.alice.mutation(api.social.answer, { id: h.incoming[0]._id, accept: false });
+    expect((await f.alice.query(api.discovery.suggestions, {})).mates.map((m) => m.name)).toEqual(['Finn']);
+  });
+
+  it('requires approval, avoids duplicate requests, and then grants normal mate access', async () => {
+    const f = await graph();
+    const dory = f.t.withIdentity({ subject: `${f.extras[0]}|session` });
+    await f.t.mutation(internal.records.publish, { owner: f.extras[0], record, historic: true });
+    await f.alice.mutation(api.discovery.request, { id: f.extras[0] });
+    await f.alice.mutation(api.discovery.request, { id: f.extras[0] });
+    expect(await f.alice.query(api.social.collection, { id: f.extras[0] })).toBeNull();
+    expect(await f.alice.query(api.social.feed, {})).toEqual([]);
+    const home = await dory.query(api.social.home, {});
+    expect(home.incoming).toHaveLength(1);
+    await dory.mutation(api.social.answer, { id: home.incoming[0]._id, accept: true });
+    expect((await f.alice.query(api.social.collection, { id: f.extras[0] }))?.total).toBe(1);
+    expect((await f.alice.query(api.discovery.suggestions, {})).mates.map((m) => m.name)).toEqual(['Finn']);
+  });
+
+  it('rechecks mutual connections and rejects self or unrelated accounts', async () => {
+    const f = await graph();
+    await expect(f.alice.mutation(api.discovery.request, { id: f.ids[0] })).rejects.toThrow('own FINDEX');
+    await expect(f.alice.mutation(api.discovery.request, { id: f.extras[2] })).rejects.toThrow('mutual mate');
+    await f.bob.mutation(api.social.unfriend, { id: f.extras[1] });
+    expect((await f.alice.query(api.discovery.suggestions, {})).mates.map((m) => m.name)).toEqual(['Dory']);
+    await expect(f.alice.mutation(api.discovery.request, { id: f.extras[1] })).rejects.toThrow('mutual mate');
+    await expect(f.t.mutation(api.discovery.request, { id: f.extras[0] })).rejects.toThrow('Sign in');
+  });
+
+  it('shares the QR request rate limit and enforces the mate cap', async () => {
+    const f = await graph();
+    await f.t.run(async (ctx) => {
+      await ctx.db.insert('rateLimits', { userId: f.ids[0], scope: 'requests', start: Date.now(), count: 30 });
+    });
+    await expect(f.alice.mutation(api.discovery.request, { id: f.extras[0] })).rejects.toThrow('Please wait');
+    await f.t.run(async (ctx) => {
+      for (let i = 0; i < 48; i++) {
+        const other = await ctx.db.insert('users', {});
+        const [a, b] = pair(f.ids[0], other);
+        await ctx.db.insert('friendships', { a, b, createdAt: Date.now() });
+      }
+    });
+    await expect(f.alice.mutation(api.discovery.request, { id: f.extras[0] })).rejects.toThrow('50 mates');
+  });
+
+  it('bounds the list to twelve and fills the next spot after sending a request', async () => {
+    const f = await graph();
+    await f.t.run(async (ctx) => {
+      for (let i = 0; i < 14; i++) {
+        const userId = await ctx.db.insert('users', {});
+        await ctx.db.insert('profiles', { userId, name: `Mate ${i}`, avatar: '001', autoShare: false, muteAlerts: false, createdAt: Date.now() });
+        const [a, b] = pair(f.ids[1], userId);
+        await ctx.db.insert('friendships', { a, b, createdAt: Date.now() });
+      }
+    });
+    const initial = await f.alice.query(api.discovery.suggestions, {});
+    expect(initial.mates).toHaveLength(12);
+    expect(initial.mates[0].name).toBe('Dory');
+    await f.alice.mutation(api.discovery.request, { id: initial.mates[0].userId });
+    const next = await f.alice.query(api.discovery.suggestions, {});
+    expect(next.mates).toHaveLength(12);
+    expect(next.mates.some((m) => m.userId === initial.mates[0].userId)).toBe(false);
+  });
+});
 describe('private online FINDEX', () => {
   beforeEach(() => vi.useFakeTimers());
   afterEach(() => vi.useRealTimers());

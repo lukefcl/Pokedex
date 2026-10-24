@@ -14,6 +14,7 @@ if (process.env.CONVEX_DEPLOY_KEY) {
     { stdio: 'inherit' },
   );
 } else {
+  await import('./prepare-scanner-runtime.mjs');
   execFileSync(process.execPath, ['node_modules/next/dist/bin/next', 'build', '--webpack'], {
     stdio: 'inherit',
   });

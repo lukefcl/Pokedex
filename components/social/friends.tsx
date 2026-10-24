@@ -24,6 +24,7 @@ import FishSprite from '../fish-sprite';
 import QrScanner from './qr-scanner';
 import Notifications, { disconnectPush } from './notifications';
 import SharedCard from './shared-card';
+import SuggestedMates from './suggested-mates';
 function message(e: unknown) {
   return e instanceof Error
     ? e.message.replace(/\[CONVEX[^]*?Uncaught ConvexError: /, '').split('\n')[0]
@@ -616,6 +617,7 @@ function Member({
           ) : (
             <p className="social-privacy">No mates linked yet. Scan their QR or show yours.</p>
           )}
+          <SuggestedMates />
         </>
       )}
       {view === 'qr' && (
