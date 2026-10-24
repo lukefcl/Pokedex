@@ -25,14 +25,16 @@ export async function buildOfflineWorker({ projectDir = process.cwd(), distDir =
   if (!assets.some(path => path.endsWith('.js')) || !assets.some(path => path.endsWith('.css'))) {
     throw new Error('Offline worker generation needs compiled Next.js JS and CSS assets.');
   }
+  let sprites=[];
+  try { sprites=(await walk(join(projectDir,'public/sprites'))).filter(path=>/\.(png|gif)$/.test(path)).map(path=>'/'+relative(join(projectDir,'public'),path).split(sep).join('/')).sort(); } catch(error) { if(error.code!=='ENOENT')throw error; }
   const version = randomBytes(8).toString('hex');
-  const precache = ['/', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/maskable-512.png', '/icons/apple-touch-icon.png', ...assets];
+  const precache = ['/', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/maskable-512.png', '/icons/apple-touch-icon.png', ...assets, ...sprites];
   const template = await readFile(join(projectDir, 'scripts/sw-template.js'), 'utf8');
   const worker = template.replace('__CACHE_VERSION__', version).replace('__PRECACHE__', JSON.stringify(precache));
   await writeFile(join(projectDir, 'public/sw.js'), worker);
   await rm(join(projectDir, 'public/offline-shell.html'), { force: true });
   console.log(`Offline cache ready: homepage + ${assets.length} application assets, cache ${version}.`);
-  return { assets, precache, version };
+  return { assets, sprites, precache, version };
 }
 
 if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {

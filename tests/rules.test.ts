@@ -39,6 +39,10 @@ test('special areas have reduced caps, species closures and shared group notes',
   assert.match(getRule('010','southland')!.notes.join(' '),/kingfish/);
 });
 test('every supported fish and area has a bounded, sourced rule; unknown areas are not guessed',()=>{
-  for(const area of areas){assert.match(sourceFor(area),/^https:\/\/www\.mpi\.govt\.nz\//);for(const entry of fish){const rule=getRule(entry.id,area.id)!;assert.ok(rule);assert.ok(rule.daily===null||rule.daily>=0);assert.ok(rule.minCm===null||rule.minCm>0);assert.ok(rule.combined>0);}}
+  for(const area of areas){assert.match(sourceFor(area),/^https:\/\/www\.mpi\.govt\.nz\//);for(const entry of fish.filter(entry=>Number(entry.id)<=18)){const rule=getRule(entry.id,area.id)!;assert.ok(rule);assert.ok(rule.daily===null||rule.daily>=0);assert.ok(rule.minCm===null||rule.minCm>0);assert.ok(rule.combined>0);}}
   assert.equal(getRule('001',''),null);assert.equal(getRule('001','kaikoura'),null);assert.equal(getRule('unknown','auckland-east'),null);
+});
+
+test('new catalogue entries do not inherit unverified finfish allowances',()=>{
+ for(const entry of fish.filter(entry=>Number(entry.id)>18))for(const area of areas)assert.equal(getRule(entry.id,area.id),null,entry.name);
 });

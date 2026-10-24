@@ -1,7 +1,7 @@
 import { findFish } from './fish';
 import { areaById } from './rules';
 
-export type CatchRecord = { id: string; fishId: string; date: string; location: string; length: string; notes: string; released: boolean; photo: Blob; createdAt: string; areaId?: string };
+export type CatchRecord = { id: string; fishId: string; date: string; location: string; length: string; notes: string; released: boolean; photo: Blob; createdAt: string; areaId?: string; customName?: string; quantity?: number };
 export type BackupCatch = Omit<CatchRecord, 'photo'> & { photo: string };
 const DB_NAME = 'findex-device';
 function openDB(): Promise<IDBDatabase> {
@@ -58,12 +58,15 @@ export function validateBackup(input: unknown): CatchRecord[] {
   return input.catches.map((record: unknown) => {
     if (!record || typeof record !== 'object') throw new Error('The backup contains an invalid catch.');
     const r = record as BackupCatch;
-    if (typeof r.id !== 'string' || !r.id || r.id.length > 100 || seen.has(r.id) || !findFish(r.fishId) || typeof r.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(r.date) || !Number.isFinite(Date.parse(r.date)) || new Date(r.date).toISOString().slice(0,10) !== r.date || typeof r.createdAt !== 'string' || !Number.isFinite(Date.parse(r.createdAt)) || typeof r.released !== 'boolean' || typeof r.location !== 'string' || r.location.length > 120 || typeof r.notes !== 'string' || r.notes.length > 1000 || typeof r.length !== 'string' || (r.length !== '' && (!Number.isFinite(Number(r.length)) || Number(r.length) <= 0 || Number(r.length) > 1000)) || typeof r.photo !== 'string' || r.photo.length > 8_000_000 || !/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+=*$/.test(r.photo)) throw new Error('The backup contains an invalid catch or photo.');
+    if (typeof r.id !== 'string' || !r.id || r.id.length > 100 || seen.has(r.id) || !findFish(r.fishId) || typeof r.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(r.date) || !Number.isFinite(Date.parse(r.date)) || new Date(r.date).toISOString().slice(0,10) !== r.date || typeof r.createdAt !== 'string' || !Number.isFinite(Date.parse(r.createdAt)) || typeof r.released !== 'boolean' || typeof r.location !== 'string' || r.location.length > 120 || typeof r.notes !== 'string' || r.notes.length > 1000 || typeof r.length !== 'string' || (r.length !== '' && (!Number.isFinite(Number(r.length)) || Number(r.length) <= 0 || Number(r.length) > 3000)) || typeof r.photo !== 'string' || r.photo.length > 8_000_000 || !/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+=*$/.test(r.photo)) throw new Error('The backup contains an invalid catch or photo.');
+    if (r.customName !== undefined && (typeof r.customName !== 'string' || r.customName.length > 120)) throw new Error('Invalid custom species name.');
+    if (r.fishId === 'other' && !r.customName?.trim()) throw new Error('An unidentified catch needs a name.');
+    if (r.quantity !== undefined && (!Number.isInteger(r.quantity) || r.quantity < 1 || r.quantity > 9999)) throw new Error('Invalid catch quantity.');
     seen.add(r.id);
     if (r.areaId !== undefined && (typeof r.areaId !== 'string' || (r.areaId !== '' && !areaById(r.areaId)))) throw new Error('The backup contains an unknown fishing area.');
     const [header, data] = r.photo.split(',');
     let binary: string; try { binary = atob(data); } catch { throw new Error('The backup contains an unreadable photo.'); }
     const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
-    return { id:r.id, fishId:r.fishId, date:r.date, location:r.location, length:r.length, notes:r.notes, released:r.released, createdAt:r.createdAt, ...(r.areaId ? {areaId:r.areaId} : {}), photo:new Blob([bytes], { type: header.match(/data:(.*);/)![1] }) };
+    return { id:r.id, fishId:r.fishId, ...(r.customName ? {customName:r.customName.trim()} : {}), ...(r.quantity !== undefined ? {quantity:r.quantity} : {}), date:r.date, location:r.location, length:r.length, notes:r.notes, released:r.released, createdAt:r.createdAt, ...(r.areaId ? {areaId:r.areaId} : {}), photo:new Blob([bytes], { type: header.match(/data:(.*);/)![1] }) };
   });
 }

@@ -1,0 +1,1376 @@
+[
+  {
+    "id": "001",
+    "name": "Snapper",
+    "maori": "Tāmure",
+    "scientific": "Chrysophrys auratus",
+    "slug": "snapper",
+    "habitat": "Coastal",
+    "category": "Finfish",
+    "description": "A pink and silver fish with blue speckles, a steep forehead and a strong spiny dorsal fin.",
+    "funFact": "A large snapper can be older than 60 years.",
+    "clue": "Bays, harbours and coastal reefs, particularly in northern waters.",
+    "aliases": "New Zealand snapper, Australasian snapper, Pink snapper, pannie (a pan-sized snapper), moocher (a big snapper), Tāmure, Karatī (young snapper), Pepe tāmure (snapper fry)",
+    "sourceUrl": "https://www.fishspecies.nz/snapper/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "002",
+    "name": "Kahawai",
+    "maori": "Kahawai",
+    "scientific": "Arripis trutta",
+    "slug": "kahawai",
+    "habitat": "Coastal",
+    "category": "Finfish",
+    "description": "A fast schooling fish with a green-blue back, silver flanks and dark markings along its upper sides.",
+    "funFact": "Young kahawai can reach roughly 15 cm during their first year.",
+    "clue": "Surf beaches, river mouths and feeding schools around the coast.",
+    "aliases": "Australian salmon, Eastern Australian salmon, Sea trout, Sea salmon, KY, Kōhere (young kahawai), Kōwaitau (young kahawai), Koria (kahawai fry)",
+    "sourceUrl": "https://www.fishspecies.nz/kahawai/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "003",
+    "name": "Yellowtail kingfish",
+    "maori": "Haku",
+    "scientific": "Seriola lalandi",
+    "slug": "kingfish-yellowtail",
+    "habitat": "Open water",
+    "category": "Finfish",
+    "description": "A muscular, streamlined fish with a golden side stripe and a vivid yellow forked tail.",
+    "funFact": "New Zealand fish dominate the international angling record list for yellowtail kingfish.",
+    "clue": "Reefs, headlands and offshore baitfish schools.",
+    "aliases": "Yellowtail kingfish, Yellowtail, Yellowtail amberjack, kingi, rat (a small kingfish), Haku, Makumaku, Warehenga",
+    "sourceUrl": "https://www.fishspecies.nz/kingfish-yellowtail/",
+    "imageCredit": "Image: The U.S. Food and Drug Administration, Wikimedia Commons, background removed · Public domain",
+    "creditLinks": [
+      {
+        "text": "The U.S. Food and Drug Administration, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:Seriola_lalandi_(RFEIMG-0260).jpg"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "004",
+    "name": "Blue cod",
+    "maori": "Rāwaru",
+    "scientific": "Parapercis colias",
+    "slug": "blue-cod",
+    "habitat": "Reef",
+    "category": "Finfish",
+    "description": "A bottom-dwelling New Zealand native with a rounded head, fleshy lips and blue-grey adult colouring.",
+    "funFact": "Some blue cod change from female to male as they grow.",
+    "clue": "Rocky seabeds and reef edges, especially south of Cook Strait.",
+    "aliases": "New Zealand blue cod, Rock cod, Rāwaru, Pākirikiri (also used for the spotty), Taipua, Kopukopu, Pātutuki",
+    "sourceUrl": "https://www.fishspecies.nz/blue-cod/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "005",
+    "name": "Tarakihi",
+    "maori": "Tarakihi",
+    "scientific": "Nemadactylus macropterus",
+    "slug": "tarakihi",
+    "habitat": "Coastal",
+    "category": "Finfish",
+    "description": "A silver schooling fish distinguished by a black shoulder saddle and an extended pectoral fin ray.",
+    "funFact": "Tarakihi can survive for more than four decades.",
+    "clue": "Coastal shelf waters and deeper reef margins.",
+    "aliases": "Jackass morwong (Australia), Morwong, terakihi (common misspelling), teraki (common misspelling)",
+    "sourceUrl": "https://www.fishspecies.nz/tarakihi/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "006",
+    "name": "Trevally",
+    "maori": "Araara",
+    "scientific": "Pseudocaranx georgianus",
+    "slug": "trevally",
+    "habitat": "Coastal",
+    "category": "Finfish",
+    "description": "A deep silver fish with a yellowish tail, blue-green back and a dark mark on the gill cover.",
+    "funFact": "Seagrass meadows provide important nursery habitat for young trevally.",
+    "clue": "Northern coastal reefs, harbours and sandy channels.",
+    "aliases": "Silver trevally, trev, Araara, Raumarie, Raumarire",
+    "sourceUrl": "https://www.fishspecies.nz/trevally/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "007",
+    "name": "Red gurnard",
+    "maori": "Kūmukumu",
+    "scientific": "Chelidonichthys kumu",
+    "slug": "red-gurnard",
+    "habitat": "Coastal",
+    "category": "Finfish",
+    "description": "A red seabed hunter with an armoured head and broad pectoral fins patterned in blue and green.",
+    "funFact": "Muscles around its swim bladder produce several kinds of grunts and growls.",
+    "clue": "Sandy and muddy coastal bottoms.",
+    "aliases": "Gurnard, Bluefin gurnard, grunter, Kumukumu, Pūwhaiau",
+    "sourceUrl": "https://www.fishspecies.nz/red-gurnard/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "008",
+    "name": "John dory",
+    "maori": "Kuparu",
+    "scientific": "Zeus faber",
+    "slug": "john-dory",
+    "habitat": "Reef",
+    "category": "Finfish",
+    "description": "An extremely thin, deep-bodied ambush hunter with long dorsal spines and a dark circular flank spot.",
+    "funFact": "Viewed from the front, its narrow body almost vanishes.",
+    "clue": "Weedy bays and reef edges, particularly in northern waters.",
+    "aliases": "Dory, jon dory, jon dore, JD, Kuparu, Pukeru",
+    "sourceUrl": "https://www.fishspecies.nz/john-dory/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "009",
+    "name": "Blue moki",
+    "maori": "Moki",
+    "scientific": "Latridopsis ciliaris",
+    "slug": "blue-moki",
+    "habitat": "Reef",
+    "category": "Finfish",
+    "description": "A deep blue-grey fish with a small thick-lipped mouth and no elongated pectoral ray.",
+    "funFact": "Some blue moki have been aged at more than 40 years.",
+    "clue": "Rocky coasts and neighbouring sand, mainly from the Bay of Plenty south.",
+    "aliases": "Moki, Moki",
+    "sourceUrl": "https://www.fishspecies.nz/blue-moki/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "010",
+    "name": "Hāpuku",
+    "maori": "Hāpuku",
+    "scientific": "Polyprion oxygeneios",
+    "slug": "hapuku",
+    "habitat": "Deep water",
+    "category": "Finfish",
+    "description": "A heavy grey fish with a large head and a lower jaw projecting beyond the upper one.",
+    "funFact": "Hāpuku have been bred through a complete life cycle in New Zealand aquaculture tanks.",
+    "clue": "Deep rocky ground and offshore pinnacles.",
+    "aliases": "Hapuka, Hapuku, Groper, Grouper, Bass groper (for bass), Wreckfish, puka, Hāpuka, Whāpuku, Kawerei, Moeone (bass), Ngutoro (bass)",
+    "sourceUrl": "https://www.fishspecies.nz/hapuku/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "011",
+    "name": "Butterfish",
+    "maori": "Mararī",
+    "scientific": "Odax pullus",
+    "slug": "butterfish",
+    "habitat": "Reef",
+    "category": "Finfish",
+    "description": "A slim kelp-dweller whose long dorsal and anal fins run along a brown, green or dark blue body.",
+    "funFact": "Butterfish are unusual among reef fish because seaweed makes up almost their entire diet.",
+    "clue": "Kelp beds and shallow rocky coasts.",
+    "aliases": "Greenbone, Greenbone butterfish, Kelp fish, butter fish, Mararī, Rarī, Marare, Matohe, Tarao, Kōeaea",
+    "sourceUrl": "https://www.fishspecies.nz/butterfish/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "012",
+    "name": "Rig",
+    "maori": "Pioke",
+    "scientific": "Mustelus lenticulatus",
+    "slug": "rig-shark-lemonfish",
+    "habitat": "Estuary",
+    "category": "Sharks & rays",
+    "description": "A slender coastal shark with small pale spots on a bronze-grey back and no dorsal fin spines.",
+    "funFact": "Rig are endemic: their natural range is confined to New Zealand.",
+    "clue": "Harbours, shallow bays and sandy or muddy seabeds.",
+    "aliases": "Rig shark, Lemonfish, Spotted dogfish, Smoothhound, Spotted smoothhound, Gummy shark, lemon fish, Pioke (also used for spiny dogfish), Makō, Mangō (also a general word for shark), Pīokeoke",
+    "sourceUrl": "https://www.fishspecies.nz/rig-shark-lemonfish/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "013",
+    "name": "Yellowbelly flounder",
+    "maori": "Pātiki",
+    "scientific": "Rhombosolea leporina",
+    "slug": "yellowbelly-flounder",
+    "habitat": "Estuary",
+    "category": "Finfish",
+    "description": "An oval flatfish with both eyes on the upper right side and a distinctive yellow underside.",
+    "funFact": "It is the predominant flounder in many northern estuaries.",
+    "clue": "Sheltered muddy harbours, estuaries and tidal flats.",
+    "aliases": "Yellow-belly flounder, Flounder, Pātiki-tōtara, Pātiki (all flounders)",
+    "sourceUrl": "https://www.fishspecies.nz/yellowbelly-flounder/",
+    "imageCredit": "Image: Lisa Bennett, iNaturalist · CC BY",
+    "creditLinks": [
+      {
+        "text": "Lisa Bennett, iNaturalist",
+        "url": "https://www.inaturalist.org/photos/6427832"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "014",
+    "name": "Red cod",
+    "maori": "Hoka",
+    "scientific": "Pseudophycis bachus",
+    "habitat": "Coastal",
+    "color": "#ba9685",
+    "accent": "#8c675b",
+    "shape": "cod",
+    "description": "A pinkish-brown cod with a small barbel beneath its chin. The dark patch at the base of the pectoral fin helps distinguish it.",
+    "clue": "Sandy and muddy bottoms, especially in cooler coastal waters.",
+    "slug": "red-cod",
+    "category": "Finfish",
+    "funFact": "A small chin barbel and dark pectoral-fin base help distinguish red cod.",
+    "aliases": "",
+    "sourceUrl": "",
+    "imageCredit": "Original AI illustration; retained FINDEX species.",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "015",
+    "name": "Jack mackerel",
+    "maori": "Hauture",
+    "scientific": "Trachurus novaezelandiae",
+    "slug": "pacific-jack-mackeral",
+    "habitat": "Open water",
+    "category": "Finfish",
+    "description": "A small silver schooling fish with a blue-green back and firm scutes along its sides.",
+    "funFact": "Three jack mackerel species occur in New Zealand waters.",
+    "clue": "Harbours and coastal schools; often encountered from wharves.",
+    "aliases": "Pacific jack mackerel (Trachurus murphyi), Chilean jack mackerel (Trachurus murphyi), jurel, jack mackeral, jack macks, yellowtail",
+    "sourceUrl": "https://www.fishspecies.nz/pacific-jack-mackeral/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "016",
+    "name": "Albacore tuna",
+    "maori": "Albacore",
+    "scientific": "Thunnus alalunga",
+    "slug": "albacore",
+    "habitat": "Open water",
+    "category": "Finfish",
+    "description": "A compact blue and silver tuna with exceptionally long pectoral fins reaching back along its body.",
+    "funFact": "Fish visiting New Zealand belong to a stock spread across the South Pacific.",
+    "clue": "Summer offshore waters, from northern coasts to the South Island west coast.",
+    "aliases": "Albacore tuna, longfin tuna, albie",
+    "sourceUrl": "https://www.fishspecies.nz/albacore/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "017",
+    "name": "Blue warehou",
+    "maori": "Warehou",
+    "scientific": "Seriolella brama",
+    "habitat": "Coastal",
+    "color": "#9aaeb0",
+    "accent": "#5e7a81",
+    "shape": "round",
+    "description": "A silvery fish with a darker blue-grey back and a small head. It can form schools in coastal waters.",
+    "clue": "Coastal waters and continental shelf edges.",
+    "slug": "blue-warehou",
+    "category": "Finfish",
+    "funFact": "Blue warehou can gather in schools over the continental shelf.",
+    "aliases": "",
+    "sourceUrl": "",
+    "imageCredit": "Original AI illustration; retained FINDEX species.",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "018",
+    "name": "Trumpeter",
+    "maori": "Kohikohi",
+    "scientific": "Latris lineata",
+    "slug": "trumpeter-latris-lineata",
+    "habitat": "Reef",
+    "category": "Finfish",
+    "description": "A golden-brown reef fish with three dark lengthwise stripes and thick lips.",
+    "funFact": "Its extended early life near the surface helps disperse young fish widely.",
+    "clue": "Cooler southern reefs, Stewart Island and the Chatham Rise.",
+    "aliases": "Striped trumpeter, Kohikohi, Koekohe",
+    "sourceUrl": "https://www.fishspecies.nz/trumpeter-latris-lineata/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "019",
+    "name": "Sand Flounder",
+    "maori": "Pātiki",
+    "scientific": "Rhombosolea plebeia",
+    "slug": "flounder",
+    "habitat": "Estuary",
+    "category": "Finfish",
+    "description": "A diamond-shaped flatfish with both eyes on its right side and a pale underside.",
+    "funFact": "Its upper-side colouring can shift to blend with the seabed.",
+    "clue": "Sand and mud in bays, estuaries and coastal shallows.",
+    "aliases": "Flounder, Pātiki",
+    "sourceUrl": "https://www.fishspecies.nz/flounder/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "020",
+    "name": "Hoki",
+    "maori": "",
+    "scientific": "Macruronus novaezelandiae",
+    "slug": "hoki",
+    "habitat": "Deep water",
+    "category": "Finfish",
+    "description": "A long silver fish whose body narrows into a pointed tail without a separate tail fin.",
+    "funFact": "Female hoki generally grow larger than males.",
+    "clue": "Shelf slopes around New Zealand, commonly 200–600 m deep.",
+    "aliases": "Blue grenadier, whiptail, blue hake",
+    "sourceUrl": "https://www.fishspecies.nz/hoki/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "021",
+    "name": "Pōrae",
+    "maori": "",
+    "scientific": "Nemadactylus douglasii",
+    "slug": "porae",
+    "habitat": "Reef",
+    "category": "Finfish",
+    "description": "A deep blue-silver reef fish easily recognised by its conspicuously thick lips.",
+    "funFact": "Pōrae can live for at least three decades.",
+    "clue": "Northern rocky coasts from Northland to the Bay of Plenty.",
+    "aliases": "Grey morwong, Blue morwong, Rubberlip morwong, Big lips",
+    "sourceUrl": "https://www.fishspecies.nz/porae/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "022",
+    "name": "Stargazer",
+    "maori": "Pūwhara",
+    "scientific": "Kathetostoma giganteum",
+    "slug": "stargazer",
+    "habitat": "Coastal",
+    "category": "Finfish",
+    "description": "A broad-headed seabed ambusher with upward-facing eyes set on top of its bony head.",
+    "funFact": "This giant stargazer occurs naturally only around New Zealand.",
+    "clue": "Soft seabeds, especially around the South Island and Chatham Rise.",
+    "aliases": "Monkfish, Giant stargazer, bulldog, Pūwhara, Kourepoua, Moamoa",
+    "sourceUrl": "https://www.fishspecies.nz/stargazer/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "023",
+    "name": "Golden Snapper",
+    "maori": "Koarea",
+    "scientific": "Centroberyx affinis",
+    "slug": "golden-snapper",
+    "habitat": "Reef",
+    "category": "Finfish",
+    "description": "An orange-red fish with oversized eyes and a deeply forked red tail.",
+    "funFact": "Its common name is misleading: it belongs to a different family from snapper.",
+    "clue": "Deeper coastal reefs, mainly in northern New Zealand.",
+    "aliases": "Red snapper, Redfish, Nannygai, Eastern nannygai, King snapper, Koarea",
+    "sourceUrl": "https://www.fishspecies.nz/golden-snapper/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "024",
+    "name": "Leatherjacket",
+    "maori": "Kōkiri",
+    "scientific": "Meuschenia scaber",
+    "slug": "leatherjacket",
+    "habitat": "Reef",
+    "category": "Finfish",
+    "description": "An oval reef fish with a small mouth, leathery skin and a prominent spine above the eye.",
+    "funFact": "Rough and smooth forms once considered separate species are now grouped together.",
+    "clue": "Coastal reefs and weed beds around much of New Zealand.",
+    "aliases": "Creamfish, smooth leatherjacket, velvet leatherjacket, leather jacket, Kōkiri",
+    "sourceUrl": "https://www.fishspecies.nz/leatherjacket/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "025",
+    "name": "Pacific Bluefin Tuna",
+    "maori": "",
+    "scientific": "Thunnus orientalis",
+    "slug": "pacific-bluefin-tuna",
+    "habitat": "Open water",
+    "category": "Finfish",
+    "description": "A very large tuna with short pectoral fins, a dark back and dark keels beside its tail.",
+    "funFact": "These visitors travel here from spawning grounds in the North Pacific.",
+    "clue": "Offshore waters; large winter visitors occur off the South Island west coast.",
+    "aliases": "Northern bluefin tuna, bluefin, blue fin tuna",
+    "sourceUrl": "https://www.fishspecies.nz/pacific-bluefin-tuna/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "026",
+    "name": "Orange Roughy",
+    "maori": "Nihorota",
+    "scientific": "Hoplostethus atlanticus",
+    "slug": "orange-roughy",
+    "habitat": "Deep water",
+    "category": "Finfish",
+    "description": "A brick-red deep-sea fish with a dark mouth and hard scales along its belly.",
+    "funFact": "Orange roughy may live beyond a century and take decades to mature.",
+    "clue": "Deep slopes and rises, commonly 750–1,200 m down.",
+    "aliases": "Slimehead, roughy, Nihorota",
+    "sourceUrl": "https://www.fishspecies.nz/orange-roughy/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "027",
+    "name": "Barracouta",
+    "maori": "Mangā",
+    "scientific": "Thyrsites atun",
+    "slug": "barracouta",
+    "habitat": "Open water",
+    "category": "Finfish",
+    "description": "A long steely-blue fish with prominent teeth and a dark patch on the first dorsal fin.",
+    "funFact": "Barracouta grow quickly and usually live for fewer than ten years.",
+    "clue": "Coastal schools, particularly around the South Island.",
+    "aliases": "Snoek, couta, Mangā",
+    "sourceUrl": "https://www.fishspecies.nz/barracouta/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "028",
+    "name": "Gemfish",
+    "maori": "Tīkati",
+    "scientific": "Rexea solandri",
+    "slug": "gemfish",
+    "habitat": "Deep water",
+    "category": "Finfish",
+    "description": "A long silver fish with a bluish back and a lateral line that splits into two branches.",
+    "funFact": "Its forked lateral line is a useful way to distinguish it from barracouta.",
+    "clue": "Continental shelf and upper-slope waters.",
+    "aliases": "Silver gemfish, silver kingfish, southern kingfish, gem fish, Tīkati, Makataharaki, Mātataharaki",
+    "sourceUrl": "https://www.fishspecies.nz/gemfish/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "029",
+    "name": "Bluenose",
+    "maori": "Matiri",
+    "scientific": "Hyperoglyphe antarctica",
+    "slug": "bluenose",
+    "habitat": "Deep water",
+    "category": "Finfish",
+    "description": "A sturdy blue-grey fish with a blunt face and large blue eyes edged in gold.",
+    "funFact": "Ageing studies indicate that bluenose can live for more than 40 years.",
+    "clue": "Deep offshore reefs, seamounts and drop-offs.",
+    "aliases": "Bluenose warehou, blue-eye trevalla, deep-sea trevalla, Antarctic butterfish, bonita, Griffin's silverfish, stone eye, blue nose, Matiri",
+    "sourceUrl": "https://www.fishspecies.nz/bluenose/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "030",
+    "name": "Black Oreo",
+    "maori": "",
+    "scientific": "Allocyttus niger",
+    "slug": "black-oreo-dory",
+    "habitat": "Deep water",
+    "category": "Finfish",
+    "description": "A dark, deep-bodied fish with large eyes and a small upward-pointing mouth.",
+    "funFact": "Black oreo are thought to be capable of living beyond 100 years.",
+    "clue": "Deep southern slopes, including the Chatham Rise and Campbell Plateau.",
+    "aliases": "Black oreo dory, black dory",
+    "sourceUrl": "https://www.fishspecies.nz/black-oreo-dory/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "031",
+    "name": "Yellowfin Tuna",
+    "maori": "",
+    "scientific": "Thunnus albacares",
+    "slug": "yellowfin-tuna",
+    "habitat": "Open water",
+    "category": "Finfish",
+    "description": "A warm-water tuna whose yellow fins and finlets stand out against metallic blue and silver sides.",
+    "funFact": "Swimming with an open mouth keeps water moving across its gills.",
+    "clue": "Northern offshore waters during summer.",
+    "aliases": "Yellowfin, ahi, yellow fin tuna",
+    "sourceUrl": "https://www.fishspecies.nz/yellowfin-tuna/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "032",
+    "name": "Yellow-eyed Mullet",
+    "maori": "Aua",
+    "scientific": "Aldrichetta forsteri",
+    "slug": "yellow-eyed-mullet",
+    "habitat": "Estuary",
+    "category": "Finfish",
+    "description": "A small silver fish with a bright yellow eye, often seen schooling around wharves.",
+    "funFact": "Often nicknamed herring locally, it actually belongs to the mullet family.",
+    "clue": "Harbours, river mouths and sandy beaches.",
+    "aliases": "Yelloweye mullet, herring, Aua, Makawhiti, Kātaha, Kātaka, Mokohiti",
+    "sourceUrl": "https://www.fishspecies.nz/yellow-eyed-mullet/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "033",
+    "name": "Ling",
+    "maori": "Hokarari",
+    "scientific": "Genypterus blacodes",
+    "slug": "ling",
+    "habitat": "Deep water",
+    "category": "Finfish",
+    "description": "An elongated pink-orange fish with pale mottling and slender, feeler-like pelvic fins.",
+    "funFact": "Female ling typically grow faster and larger than males.",
+    "clue": "Deep continental shelf and slope waters, especially in the south.",
+    "aliases": "Kingklip, pink ling, pink cusk-eel, ling cod, Hokarari, Hoka, Rari",
+    "sourceUrl": "https://www.fishspecies.nz/ling/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "034",
+    "name": "Chinook Salmon",
+    "maori": "Hāmana",
+    "scientific": "Oncorhynchus tshawytscha",
+    "slug": "chinook-salmon",
+    "habitat": "Freshwater",
+    "category": "Freshwater",
+    "description": "A large introduced salmon with black gums along its lower jaw; also called king or quinnat salmon.",
+    "funFact": "Chinook are the largest salmon or trout found in New Zealand.",
+    "clue": "South Island east-coast rivers and coastal waters during migrations.",
+    "aliases": "King salmon, quinnat salmon, Hāmana",
+    "sourceUrl": "https://www.fishspecies.nz/chinook-salmon/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "035",
+    "name": "Brown Trout",
+    "maori": "Tarauta",
+    "scientific": "Salmo trutta",
+    "slug": "brown-trout",
+    "habitat": "Freshwater",
+    "category": "Freshwater",
+    "description": "An introduced trout with spotted brown or silver flanks and a tail that usually has few spots.",
+    "funFact": "New Zealand brown trout descend from introductions made in the late 1860s.",
+    "clue": "Rivers and lakes throughout much of New Zealand.",
+    "aliases": "Brownie, sea-run trout, Tarauta, Taraute",
+    "sourceUrl": "https://www.fishspecies.nz/brown-trout/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "036",
+    "name": "Grey Mullet",
+    "maori": "Kanae",
+    "scientific": "Mugil cephalus",
+    "slug": "grey-mullet",
+    "habitat": "Estuary",
+    "category": "Finfish",
+    "description": "A robust silver schooling fish with a blunt head and a thick fleshy covering over much of the eye.",
+    "funFact": "Large females can release around a million eggs during spawning.",
+    "clue": "Shallow northern harbours, mangroves and estuaries.",
+    "aliases": "Mullet, flathead mullet, sea mullet, striped mullet, Kanae, Hopuhopu, Kanae raukura",
+    "sourceUrl": "https://www.fishspecies.nz/grey-mullet/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "037",
+    "name": "Hake",
+    "maori": "Tīkati",
+    "scientific": "Merluccius australis",
+    "slug": "hake",
+    "habitat": "Deep water",
+    "category": "Finfish",
+    "description": "A slender deepwater fish with a projecting lower jaw that leaves some teeth visible.",
+    "funFact": "Female hake can outgrow males, reaching more than a metre long.",
+    "clue": "Southern slopes, the Chatham Rise and Campbell Plateau.",
+    "aliases": "Southern hake, whiting, Tīkati, Kehe",
+    "sourceUrl": "https://www.fishspecies.nz/hake/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "038",
+    "name": "Sole",
+    "maori": "Pātiki rore",
+    "scientific": "Peltorhamphus novaezeelandiae",
+    "slug": "sole",
+    "habitat": "Coastal",
+    "category": "Finfish",
+    "description": "An oval flatfish widest near its rounded head, rather than the diamond outline of a sand flounder.",
+    "funFact": "New Zealand sole is endemic to this country's waters.",
+    "clue": "Shallow sandy seabeds, especially around the South Island.",
+    "aliases": "New Zealand sole, common sole, Pātiki rore, Pātiki rori, Horihori, Raututu, Tarore, Pakeke",
+    "sourceUrl": "https://www.fishspecies.nz/sole/",
+    "imageCredit": "",
+    "creditLinks": [],
+    "protected": false
+  },
+  {
+    "id": "039",
+    "name": "Whitebait",
+    "maori": "Īnanga",
+    "scientific": "Galaxias maculatus, Galaxias brevipinnis, Galaxias fasciatus, Galaxias argenteus, Galaxias postvectis",
+    "slug": "whitebait-inanga",
+    "habitat": "Freshwater",
+    "category": "Freshwater",
+    "description": "Whitebait are translucent juveniles of five native galaxiid species; most of the catch consists of young īnanga.",
+    "funFact": "Protecting streamside plants helps preserve the places where īnanga lay their eggs.",
+    "clue": "Coastal streams, wetlands and river mouths during upstream migration.",
+    "aliases": "Īnanga, Inanga, White bait, Īnanga (the fish and its whitebait)",
+    "sourceUrl": "https://www.fishspecies.nz/whitebait-inanga/",
+    "imageCredit": "Whitebait (juvenile īnanga). Image: Greg Wallis, iNaturalist, flipped · CC BY 4.0 · Whitebait, as caught. Image: Stewart Nimmo, Wikimedia Commons · CC BY-SA 4.0 · Adult īnanga, which whitebait grow into. Image: Te Papa (P.005625), background removed · CC BY 4.0",
+    "creditLinks": [
+      {
+        "text": "Greg Wallis, iNaturalist, flipped",
+        "url": "https://www.inaturalist.org/photos/11289181"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      {
+        "text": "Stewart Nimmo, Wikimedia Commons",
+        "url": "https://commons.wikimedia.org/wiki/File:%C5%8Ck%C4%81rito_%2B_Whitebaiting_%E2%80%A2_Nimmo_%E2%80%A2_MRD_17.jpg"
+      },
+      {
+        "text": "CC BY-SA 4.0",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      {
+        "text": "Te Papa (P.005625), background removed",
+        "url": "https://collections.tepapa.govt.nz/object/146456"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "040",
+    "name": "School Shark",
+    "maori": "Kapetā",
+    "scientific": "Galeorhinus galeus",
+    "slug": "school-shark",
+    "habitat": "Coastal",
+    "category": "Sharks & rays",
+    "description": "A slim grey shark with a pointed snout, no spots and a conspicuous upper tail lobe.",
+    "funFact": "Unlike rig and spiny dogfish, its back has neither pale spots nor dorsal fin spines.",
+    "clue": "Coastal waters in summer and deeper offshore water in winter.",
+    "aliases": "Tope, Grey shark, Tope shark, Kapetā, Tupere, Makohuarau (Also recorded for spiny dogfish.)",
+    "sourceUrl": "https://www.fishspecies.nz/school-shark/",
+    "imageCredit": "Image: nick_goldwater, iNaturalist, background removed · CC BY 4.0 · Image: AshlieJMcivor, Wikimedia Commons, background removed · CC BY-SA 4.0",
+    "creditLinks": [
+      {
+        "text": "nick_goldwater, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/514305669"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      {
+        "text": "AshlieJMcivor, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:Curious_female_School_Shark_investigates_research_equipment.jpg"
+      },
+      {
+        "text": "CC BY-SA 4.0",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "041",
+    "name": "Spiny Dogfish",
+    "maori": "Pioke",
+    "scientific": "Squalus acanthias",
+    "slug": "spiny-dogfish",
+    "habitat": "Coastal",
+    "category": "Sharks & rays",
+    "description": "A small brown-grey shark with scattered pale spots and a spine ahead of each dorsal fin.",
+    "funFact": "The paired dorsal spines help separate it from rig and school shark.",
+    "clue": "Coastal and shelf waters, especially around the South Island.",
+    "aliases": "Spotted spiny dogfish, Piked dogfish, Spineback, Pioke (also used for rig), Kāraerae, Koinga, Mangō hapū, Mangō pekepeke, Makohuarau (Also recorded for school shark.)",
+    "sourceUrl": "https://www.fishspecies.nz/spiny-dogfish/",
+    "imageCredit": "Image: Lorraine Cook, iNaturalist, background removed · CC BY 4.0 · Image: Magnefl, Wikimedia Commons, background removed · CC BY-SA 4.0",
+    "creditLinks": [
+      {
+        "text": "Lorraine Cook, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/527938071"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      {
+        "text": "Magnefl, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:Squalus_acanthias-f.jpg"
+      },
+      {
+        "text": "CC BY-SA 4.0",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "042",
+    "name": "Carpet Shark",
+    "maori": "Pekapeka",
+    "scientific": "Cephaloscyllium isabella",
+    "slug": "carpet-shark",
+    "habitat": "Reef",
+    "category": "Sharks & rays",
+    "description": "A stocky, blotched catshark with a broad head and two dorsal fins positioned far back.",
+    "funFact": "It can inflate its belly with water or air when disturbed.",
+    "clue": "Rocky reefs and adjacent sand around New Zealand.",
+    "aliases": "Draughtsboard shark, New Zealand carpet shark, Carpetshark, Pekapeka",
+    "sourceUrl": "https://www.fishspecies.nz/carpet-shark/",
+    "imageCredit": "Image: Arnim Littek, iNaturalist, background removed · CC BY 4.0 · Image: Py1jtp, Wikimedia Commons, background removed · CC BY-SA 3.0",
+    "creditLinks": [
+      {
+        "text": "Arnim Littek, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/549076878"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      {
+        "text": "Py1jtp, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:Carpetshark.jpg"
+      },
+      {
+        "text": "CC BY-SA 3.0",
+        "url": "https://creativecommons.org/licenses/by-sa/3.0/"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "043",
+    "name": "Bronze Whaler",
+    "maori": "Horopekapeka",
+    "scientific": "Carcharhinus brachyurus",
+    "slug": "bronze-whaler",
+    "habitat": "Coastal",
+    "category": "Sharks & rays",
+    "description": "A large bronze-backed shark with a pale belly and a broad rounded snout.",
+    "funFact": "Bronze whalers are regular warm-season visitors to northern coastal waters.",
+    "clue": "Northern bays, harbours and open coastal waters.",
+    "aliases": "Bronze shark, Bronze whaler shark, Copper shark, bronzie, Horopekapeka, Tōiki, Ngengero (Te Aka also gives ngengero for the blue shark), Matawhā, Ngerungeru",
+    "sourceUrl": "https://www.fishspecies.nz/bronze-whaler/",
+    "imageCredit": "Image: Tia Offner, iNaturalist, background removed · CC BY 4.0 · Image: Oscar Dove, iNaturalist, background removed · CC BY 4.0",
+    "creditLinks": [
+      {
+        "text": "Tia Offner, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/589597444"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      {
+        "text": "Oscar Dove, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/470192647"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "044",
+    "name": "Mako Shark",
+    "maori": "Mako",
+    "scientific": "Isurus oxyrinchus",
+    "slug": "mako-shark",
+    "habitat": "Open water",
+    "category": "Sharks & rays",
+    "description": "A streamlined shark with a pointed snout, blue back, pale underside and long visible teeth.",
+    "funFact": "Its sharp, conical teeth remain visible even when its mouth is closed.",
+    "clue": "Offshore waters around New Zealand.",
+    "aliases": "Shortfin mako, Mako, Blue pointer, Mackerel shark, Mako (means the shark or a shark tooth; the name has been adopted worldwide), Ngutukao",
+    "sourceUrl": "https://www.fishspecies.nz/mako-shark/",
+    "imageCredit": "Image: Hugues Evano (IFREMER), Wikimedia Commons, background removed · CC BY 4.0 · Image: Arnim Littek, iNaturalist, background removed · CC BY 4.0",
+    "creditLinks": [
+      {
+        "text": "Hugues Evano (IFREMER), Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:Requin_taupe_(Isurus_oxyrinchus)_(Ifremer_00764-87575).jpg"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      {
+        "text": "Arnim Littek, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/335237964"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "045",
+    "name": "Hammerhead Shark",
+    "maori": "Mangōpare",
+    "scientific": "Sphyrna zygaena",
+    "slug": "hammerhead-shark",
+    "habitat": "Coastal",
+    "category": "Sharks & rays",
+    "description": "A grey shark with a broad hammer-shaped head and tall first dorsal fin.",
+    "funFact": "The smooth hammerhead is the hammerhead species recorded in New Zealand.",
+    "clue": "Northern coastal waters, with young fish in shallow bays.",
+    "aliases": "Smooth hammerhead, Smooth hammerhead shark, Hammerhead, Mangōpare (also the name of a kōwhaiwhai pattern that symbolises the hammerhead), Kakere",
+    "sourceUrl": "https://www.fishspecies.nz/hammerhead-shark/",
+    "imageCredit": "Image: Jonathan Couch and A. F. Lydon, Wikimedia Commons, background removed · Public domain · Image: Robert Briggs, iNaturalist, background removed · CC BY-SA 4.0",
+    "creditLinks": [
+      {
+        "text": "Jonathan Couch and A. F. Lydon, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:A_history_of_the_fishes_of_the_British_Islands_(Plate_XVI)_(7555988838).jpg"
+      },
+      {
+        "text": "Robert Briggs, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/106632890"
+      },
+      {
+        "text": "CC BY-SA 4.0",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "046",
+    "name": "Great White Shark",
+    "maori": "Mangō taniwha",
+    "scientific": "Carcharodon carcharias",
+    "slug": "great-white-shark",
+    "habitat": "Coastal",
+    "category": "Sharks & rays",
+    "description": "A powerful grey-backed shark with a white belly, conical snout and triangular serrated teeth.",
+    "funFact": "Great whites belong to the same shark order as makos and basking sharks.",
+    "clue": "Coastal and offshore waters around New Zealand.",
+    "aliases": "White pointer, White pointer shark, White shark, Mangō taniwha, Mangō ururoa, Tupa (Ngāi Tahu name)",
+    "sourceUrl": "https://www.fishspecies.nz/great-white-shark/",
+    "imageCredit": "Image: Elias Levy, Wikimedia Commons, background removed · CC BY 2.0 · Image: Robin White, iNaturalist, background removed · CC BY 4.0",
+    "creditLinks": [
+      {
+        "text": "Elias Levy, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:Great_White_Shark_(14914320281).jpg"
+      },
+      {
+        "text": "CC BY 2.0",
+        "url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      {
+        "text": "Robin White, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/618009666"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "protected": true
+  },
+  {
+    "id": "047",
+    "name": "Stingrays",
+    "maori": "Whai",
+    "scientific": "Bathytoshia brevicaudata, Bathytoshia lata",
+    "slug": "stingrays",
+    "habitat": "Estuary",
+    "category": "Sharks & rays",
+    "description": "Short-tail and long-tail stingrays have broad discs with rounded wings and a slender tail.",
+    "funFact": "Their rounded wings ripple as they move; eagle rays have pointed wings that flap.",
+    "clue": "Bays, estuaries and sandy coastal bottoms.",
+    "aliases": "Short-tail stingray, Short-tailed stingray, Long-tail stingray, Long-tailed stingray, Whiptail stingray, Whai (rays and skates in general), Roha (short-tail stingray), Pākaurua (short-tail stingray), Whai repo (also the eagle ray)",
+    "sourceUrl": "https://www.fishspecies.nz/stingrays/",
+    "imageCredit": "Short-tail stingray. Image: Peter Crowcroft, iNaturalist, background removed · CC BY 4.0 · Long-tail stingray. Image: Shaun Lee, iNaturalist, background removed · CC BY 4.0",
+    "creditLinks": [
+      {
+        "text": "Peter Crowcroft, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/189202230"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      {
+        "text": "Shaun Lee, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/458995330"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "048",
+    "name": "Eagle Ray",
+    "maori": "Whai keo",
+    "scientific": "Myliobatis tenuicaudatus",
+    "slug": "eagle-ray",
+    "habitat": "Estuary",
+    "category": "Sharks & rays",
+    "description": "A ray with pointed wings, a projecting head and a long whip-like tail.",
+    "funFact": "Its wing strokes resemble a bird's flight, giving the eagle ray its name.",
+    "clue": "Shallow harbours, estuaries and coastal bays.",
+    "aliases": "Whai keo, Whai repo (also used for the short-tail and long-tail stingrays)",
+    "sourceUrl": "https://www.fishspecies.nz/eagle-ray/",
+    "imageCredit": "Image: Lachlan Macnaughtan, Wikimedia Commons, background removed · CC BY-SA 4.0 · Image: Andy McKay, iNaturalist, background removed · CC BY 4.0",
+    "creditLinks": [
+      {
+        "text": "Lachlan Macnaughtan, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:Eagle_ray_(Cabbage_Tree_Bay)_(cropped).jpg"
+      },
+      {
+        "text": "CC BY-SA 4.0",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      {
+        "text": "Andy McKay, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/172127903"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "049",
+    "name": "Basking Shark",
+    "maori": "Mangō reremai",
+    "scientific": "Cetorhinus maximus",
+    "slug": "basking-shark",
+    "habitat": "Open water",
+    "category": "Sharks & rays",
+    "description": "A huge shark with a cavernous mouth and long gill slits, feeding by filtering tiny animals.",
+    "funFact": "This plankton eater is the world's second-largest fish.",
+    "clue": "Cool coastal and offshore waters; uncommon in New Zealand.",
+    "aliases": "Mangō reremai, Reremai",
+    "sourceUrl": "https://www.fishspecies.nz/basking-shark/",
+    "imageCredit": "Image: Green Fire Productions, Wikimedia Commons, background removed · CC BY 2.0 · Image: Devon Bradley, iNaturalist, background removed · CC BY 4.0",
+    "creditLinks": [
+      {
+        "text": "Green Fire Productions, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:Cetorhinus_maximus_atlantic.jpg"
+      },
+      {
+        "text": "CC BY 2.0",
+        "url": "https://creativecommons.org/licenses/by/2.0"
+      },
+      {
+        "text": "Devon Bradley, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/37631637"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "protected": true
+  },
+  {
+    "id": "050",
+    "name": "Whale Shark",
+    "maori": "",
+    "scientific": "Rhincodon typus",
+    "slug": "whale-shark",
+    "habitat": "Open water",
+    "category": "Sharks & rays",
+    "description": "A broad-headed giant with pale spots and stripes arranged across its dark back.",
+    "funFact": "The world's largest fish feeds on small prey filtered from the water.",
+    "clue": "Occasional summer visits to northern New Zealand.",
+    "aliases": "",
+    "sourceUrl": "https://www.fishspecies.nz/whale-shark/",
+    "imageCredit": "Image: FGBNMS/Eckert, Wikimedia Commons, background removed · Public domain · Image: Holmbergius, Wikimedia Commons, background removed · CC BY 3.0",
+    "creditLinks": [
+      {
+        "text": "FGBNMS/Eckert, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:Rhincodon_typus_fgbnms.jpg"
+      },
+      {
+        "text": "Holmbergius, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:2006_March_15_jason1.jpg"
+      },
+      {
+        "text": "CC BY 3.0",
+        "url": "https://creativecommons.org/licenses/by/3.0"
+      }
+    ],
+    "protected": true
+  },
+  {
+    "id": "051",
+    "name": "Manta Ray",
+    "maori": "Te Whai Rahi",
+    "scientific": "Mobula birostris, Mobula mobular",
+    "slug": "manta-ray",
+    "habitat": "Open water",
+    "category": "Sharks & rays",
+    "description": "Oceanic mantas and smaller devil rays have broad pointed wings and paired head fins.",
+    "funFact": "Head fins help funnel plankton-rich water towards the mouth.",
+    "clue": "Northern open waters in spring and summer.",
+    "aliases": "Oceanic manta ray, Giant manta ray, Giant oceanic manta ray, Spinetail devil ray, Spine-tailed devil ray, Giant devil ray, Japanese devil ray, Devil ray, Devilfish, Te Whai Rahi (oceanic manta ray)",
+    "sourceUrl": "https://www.fishspecies.nz/manta-ray/",
+    "imageCredit": "Oceanic manta ray. Image: Georgina Jones, iNaturalist, background removed · CC BY-SA 4.0 · Spinetail devil ray. Image: Julien Renoult, iNaturalist, background removed · CC BY 4.0",
+    "creditLinks": [
+      {
+        "text": "Georgina Jones, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/427433804"
+      },
+      {
+        "text": "CC BY-SA 4.0",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      {
+        "text": "Julien Renoult, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/122443097"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "protected": true
+  },
+  {
+    "id": "052",
+    "name": "Pāua",
+    "maori": "Tuke o rangi",
+    "scientific": "Haliotis iris",
+    "slug": "paua",
+    "habitat": "Shore",
+    "category": "Kaimoana",
+    "description": "A black-footed sea snail with an ear-shaped shell and a row of breathing holes.",
+    "funFact": "Its bluish blood uses copper to carry oxygen.",
+    "clue": "Shallow rocky shores and surge-washed reefs.",
+    "aliases": "Blackfoot pāua, Ordinary pāua, Abalone, Tuke o rangi, Kararuri (young pāua)",
+    "sourceUrl": "https://www.fishspecies.nz/paua/",
+    "imageCredit": "Image: Javier, iNaturalist, background removed · CC BY 4.0 · Image: Michael Berardozzi, iNaturalist, background removed · CC BY 4.0 · Image: Saryu Mae 前 朝琉, iNaturalist, background removed · CC BY 4.0",
+    "creditLinks": [
+      {
+        "text": "Javier, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/114148479"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      {
+        "text": "Michael Berardozzi, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/521092730"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      {
+        "text": "Saryu Mae 前 朝琉, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/87595138"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "053",
+    "name": "Crayfish",
+    "maori": "Kōura",
+    "scientific": "Jasus edwardsii",
+    "slug": "crayfish-rock-lobster",
+    "habitat": "Reef",
+    "category": "Kaimoana",
+    "description": "A reddish spiny rock lobster with long antennae and a segmented tail, lacking large pincer claws.",
+    "funFact": "Its transparent larvae may spend one to two years drifting offshore.",
+    "clue": "Rocky reefs and crevices around the coast.",
+    "aliases": "Rock lobster, Spiny rock lobster, Red rock lobster, Southern rock lobster, cray, Kōura, Kōura papatea, Kōura matapara",
+    "sourceUrl": "https://www.fishspecies.nz/crayfish-rock-lobster/",
+    "imageCredit": "Image: Michael Berardozzi, iNaturalist, background removed · CC BY 4.0 · Image: Michael Berardozzi, iNaturalist, background removed · CC BY 4.0",
+    "creditLinks": [
+      {
+        "text": "Michael Berardozzi, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/428829632"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      {
+        "text": "Michael Berardozzi, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/428829561"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "054",
+    "name": "Kina",
+    "maori": "Pūrau",
+    "scientific": "Evechinus chloroticus",
+    "slug": "kina",
+    "habitat": "Reef",
+    "category": "Kaimoana",
+    "description": "A round green-brown sea urchin covered in movable spines, grazing on reef seaweed.",
+    "funFact": "Its mouth contains a five-toothed structure known as Aristotle's lantern.",
+    "clue": "Shallow rocky reefs and kelp forests.",
+    "aliases": "Sea urchin, Sea egg, New Zealand sea urchin, Pūrau, Ateate (kina roe)",
+    "sourceUrl": "https://www.fishspecies.nz/kina/",
+    "imageCredit": "Image: Tony Wills, iNaturalist, background removed · CC BY-SA 4.0",
+    "creditLinks": [
+      {
+        "text": "Tony Wills, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/2299931"
+      },
+      {
+        "text": "CC BY-SA 4.0",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "055",
+    "name": "Pipi",
+    "maori": "",
+    "scientific": "Paphies australis",
+    "slug": "pipi",
+    "habitat": "Estuary",
+    "category": "Kaimoana",
+    "description": "A smooth oval clam found in clean sand near tidal harbour mouths.",
+    "funFact": "Young pipi drift as larvae for several weeks before settling into sand.",
+    "clue": "Sandy tidal banks with strong currents.",
+    "aliases": "",
+    "sourceUrl": "https://www.fishspecies.nz/pipi/",
+    "imageCredit": "Image: Shaun Thompson, Wikimedia Commons, background removed · CC BY 4.0",
+    "creditLinks": [
+      {
+        "text": "Shaun Thompson, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:Paphies_australis_on_rocks.jpg"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "056",
+    "name": "Oysters",
+    "maori": "Tio",
+    "scientific": "Ostrea chilensis, Saccostrea glomerata, Magallana gigas",
+    "slug": "oysters",
+    "habitat": "Shore",
+    "category": "Kaimoana",
+    "description": "This entry covers Pacific, native rock and Bluff oysters; their shells and habitats differ.",
+    "funFact": "Bluff oysters brood their larvae inside their shells before releasing them.",
+    "clue": "Northern intertidal rocks and deeper southern oyster beds.",
+    "aliases": "Bluff oyster, Dredge oyster, Flat oyster, Rock oyster, Pacific oyster, Tio (rock oyster), Tio para (Bluff (dredge) oyster)",
+    "sourceUrl": "https://www.fishspecies.nz/oysters/",
+    "imageCredit": "Pacific oyster. Image: Tony Wills, iNaturalist, background removed · CC BY-SA 4.0 · Dredge (Bluff) oyster. Image: Auckland Museum, Wikimedia Commons, background removed · CC BY 4.0",
+    "creditLinks": [
+      {
+        "text": "Tony Wills, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/580461865"
+      },
+      {
+        "text": "CC BY-SA 4.0",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      {
+        "text": "Auckland Museum, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:Ostrea_chilensis_Philippi_in_K%C3%BCster,_1844_(AM_MA70579-4).jpg"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "057",
+    "name": "Scallops",
+    "maori": "Tipa",
+    "scientific": "Pecten novaezelandiae",
+    "slug": "scallops",
+    "habitat": "Coastal",
+    "category": "Kaimoana",
+    "description": "A ribbed fan-shaped shellfish with a flat upper shell and a more curved lower one.",
+    "funFact": "Each New Zealand scallop can produce both eggs and sperm.",
+    "clue": "Sandy or silty seabeds, often partly recessed in the sediment.",
+    "aliases": "New Zealand scallop, Tipa (also pure or tupa), Kuakua",
+    "sourceUrl": "https://www.fishspecies.nz/scallops/",
+    "imageCredit": "Image: Jacqui Geux, iNaturalist, background removed · CC BY 4.0 · Image: Auckland Museum, Wikimedia Commons, background removed · CC BY 4.0",
+    "creditLinks": [
+      {
+        "text": "Jacqui Geux, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/167890026"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      {
+        "text": "Auckland Museum, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:Pecten_novaezelandiae_Reeve,_1852_(AM_MA70547-1).jpg"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "058",
+    "name": "Tuatua",
+    "maori": "",
+    "scientific": "Paphies subtriangulata",
+    "slug": "tuatua",
+    "habitat": "Shore",
+    "category": "Kaimoana",
+    "description": "A smooth triangular surf clam with an angled hinge, found on exposed sandy beaches.",
+    "funFact": "Tuatua can reach roughly 40–70 mm in about three years.",
+    "clue": "Clean sand on open ocean surf beaches.",
+    "aliases": "Surf clam",
+    "sourceUrl": "https://www.fishspecies.nz/tuatua/",
+    "imageCredit": "Image: Saryu Mae 前 朝琉, iNaturalist, background removed · CC BY 4.0",
+    "creditLinks": [
+      {
+        "text": "Saryu Mae 前 朝琉, iNaturalist, background removed",
+        "url": "https://www.inaturalist.org/photos/57179387"
+      },
+      {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "059",
+    "name": "Cockles",
+    "maori": "Tuangi",
+    "scientific": "Austrovenus stutchburyi",
+    "slug": "cockles",
+    "habitat": "Estuary",
+    "category": "Kaimoana",
+    "description": "A rounded, ribbed shellfish living just beneath sheltered tidal sand and mud.",
+    "funFact": "Some New Zealand cockles can live for around 25 years.",
+    "clue": "Sheltered harbour sandflats and mudflats.",
+    "aliases": "New Zealand cockle, Tuangi (also hūwai, tuaki or huangi depending on iwi dialect (NIWA))",
+    "sourceUrl": "https://www.fishspecies.nz/cockles/",
+    "imageCredit": "Image: GrahamBould, Wikimedia Commons, background removed · Public domain",
+    "creditLinks": [
+      {
+        "text": "GrahamBould, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:Austrovenus_stutchburyi_(tuangi_cockle).JPG"
+      }
+    ],
+    "protected": false
+  },
+  {
+    "id": "060",
+    "name": "Mussels",
+    "maori": "Kuku",
+    "scientific": "Perna canaliculus, Mytilus planulatus",
+    "slug": "mussels",
+    "habitat": "Shore",
+    "category": "Kaimoana",
+    "description": "Green-lipped mussels have a green shell edge; smaller blue mussels have blue-black shells.",
+    "funFact": "Tough byssus threads anchor mussel clusters to rocks and piles.",
+    "clue": "Rocky shores, wharf piles and coastal mussel beds.",
+    "aliases": "Green-lipped mussel, Greenshell mussel, Blue mussel, Kuku (green-lipped mussel, Perna canaliculus), Kūtai (mussel of several species)",
+    "sourceUrl": "https://www.fishspecies.nz/mussels/",
+    "imageCredit": "Image: Richard Giddins from London, UK, Wikimedia Commons, background removed · CC BY 2.0",
+    "creditLinks": [
+      {
+        "text": "Richard Giddins from London, UK, Wikimedia Commons, background removed",
+        "url": "https://commons.wikimedia.org/wiki/File:Green_Lipped_Mussel_(314300764).jpg"
+      },
+      {
+        "text": "CC BY 2.0",
+        "url": "https://creativecommons.org/licenses/by/2.0"
+      }
+    ],
+    "protected": false
+  }
+]

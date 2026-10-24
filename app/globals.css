@@ -16,3 +16,30 @@
 @media(max-width:520px){.area-picker select{font-size:12px}.form-label select{font-size:16px}.rules-table>button,.rules-table>button>strong{font-size:10px}.rules-table-head{font-size:6px}.rules-meta{font-size:5px}}
 @media(max-width:360px){.rules-table>button,.rules-table>button>strong{font-size:9px}.area-picker select{font-size:11px}.rules-meta{font-size:4.5px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+/* AI sprite assets retain their own palette and a hard pixel grid. */
+.fish-sprite{display:block;position:relative;overflow:hidden;line-height:0}
+.fish-sprite>img{display:block;width:100%;height:100%;object-fit:contain;image-rendering:pixelated}
+.sprite-stage>.fish-sprite,.species-row>.fish-sprite,.detail-sprite>.fish-sprite{filter:none;mix-blend-mode:normal}
+.fish-sprite.is-silhouette{filter:brightness(0) opacity(.45)}
+.species-controls>span{overflow-wrap:anywhere;text-align:center;padding:6px 0}
+.unlisted-button{margin-top:13px;font-size:10px}
+.catch-card>.catch-art,.catch-art{position:relative;height:132px;isolation:isolate;padding:0;background:#bdcbb1;overflow:hidden}
+.catch-art>.catch-art-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:.56;z-index:-2}
+.catch-art-shade{position:absolute;inset:0;background:linear-gradient(180deg,#dce4c912,#dce4c954);z-index:-1}
+.catch-art>.fish-sprite{position:absolute;inset:8px 4px 10px;width:calc(100% - 8px);height:calc(100% - 18px);filter:drop-shadow(1px 2px 0 #233a3240)}
+.catch-art-number{position:absolute;bottom:6px;left:7px;font:6px var(--mono);letter-spacing:1px;color:#294c35;background:#e5ecd0d9;padding:3px 4px;border-radius:2px}
+.catch-art.catch-art-detail{height:220px}
+.catch-art-detail>.fish-sprite{inset:12px 10%;width:80%;height:196px}
+.fun-fact,.species-guidance{margin:15px 0;padding:13px;border:1px solid #a7bf91;border-radius:4px;background:#c9dbaf}
+.fun-fact>.eyebrow{font-size:7px;color:#4f713b}
+.fun-fact p,.species-guidance p{font-size:11px;line-height:1.8;color:#4c683c;margin-top:5px}
+.species-guidance strong{font-size:11px;color:#476236}
+.protected-guidance{background:#dfd5b2;border-color:#b6a372}
+.species-source{border-top:1px solid #acbf98;margin-top:18px;padding-top:12px;color:#607b4b;font-size:9px;line-height:1.8;overflow-wrap:anywhere}
+.species-source a{text-decoration:underline;text-underline-offset:3px}
+.species-source p{margin-top:8px;font-size:8px}
+.species-source>span{display:block;margin-top:8px;font-size:8px}
+.original-photo{margin:16px 0;border:1px solid #adc297;border-radius:4px;overflow:hidden}
+.original-photo>summary{font-size:11px;padding:12px;cursor:pointer;background:#d1dfbc;color:#4c6b39}
+.original-photo>.catch-detail-photo{height:auto;max-height:360px;object-fit:contain}
+@media(max-width:520px){.catch-card>.catch-art{height:126px}}

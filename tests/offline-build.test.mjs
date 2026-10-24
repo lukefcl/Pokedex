@@ -10,13 +10,15 @@ async function fixture(run) {
   const projectDir = await mkdtemp(join(tmpdir(), 'findex-offline-'));
   const distDir = join(projectDir, 'custom-next-output');
   try {
-    await Promise.all(['scripts', 'public', 'custom-next-output/static/chunks', 'custom-next-output/static/css', 'custom-next-output/static/media'].map(path => mkdir(join(projectDir, path), { recursive:true })));
+    await Promise.all(['scripts', 'public/sprites', 'custom-next-output/static/chunks', 'custom-next-output/static/css', 'custom-next-output/static/media'].map(path => mkdir(join(projectDir, path), { recursive:true })));
     await copyFile(new URL('../scripts/sw-template.js', import.meta.url), join(projectDir, 'scripts/sw-template.js'));
     await Promise.all([
       writeFile(join(distDir, 'static/chunks/app.js'), '/* client app */'),
       writeFile(join(distDir, 'static/css/app.css'), 'body { color: green; }'),
       writeFile(join(distDir, 'static/media/local-font.woff2'), 'font'),
       writeFile(join(distDir, 'static/chunks/app.js.map'), '{}'),
+      writeFile(join(projectDir, 'public/sprites/snapper.png'), 'png'),
+      writeFile(join(projectDir, 'public/sprites/snapper.gif'), 'gif'),
     ]);
     await run({projectDir,distDir});
   } finally { await rm(projectDir, {recursive:true,force:true}); }
@@ -28,6 +30,7 @@ test('offline generation succeeds without server/app/index.html or BUILD_ID', as
   const {assets,precache} = await buildOfflineWorker(options);
   assert.deepEqual(assets, ['/_next/static/chunks/app.js', '/_next/static/css/app.css', '/_next/static/media/local-font.woff2']);
   assert.equal(precache[0], '/');
+  assert.ok(precache.includes('/sprites/snapper.png'));assert.ok(precache.includes('/sprites/snapper.gif'));
   const worker = await readFile(join(options.projectDir, 'public/sw.js'), 'utf8');
   assert.doesNotMatch(worker, /__PRECACHE__|__CACHE_VERSION__|offline-shell\.html/);
   assert.match(worker, /cache\.match\('\/'\)/);
@@ -75,6 +78,8 @@ test('worker installs homepage/assets and serves the cached homepage for offline
   worker.listeners.get('fetch')({request:{method:'GET',url:'https://findex.example/?installed=1',mode:'navigate'},respondWith(promise){response=promise;}});
   assert.equal((await response).body,'complete application HTML');
   worker.listeners.get('fetch')({request:{method:'GET',url:'https://findex.example/_next/static/chunks/app.js?dpl=deployment',mode:'cors'},respondWith(promise){response=promise;}});
+  assert.equal((await response).body,'asset');
+  worker.listeners.get('fetch')({request:{method:'GET',url:'https://findex.example/sprites/snapper.gif',mode:'cors'},respondWith(promise){response=promise;}});
   assert.equal((await response).body,'asset');
 }));
 

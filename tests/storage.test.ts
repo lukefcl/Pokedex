@@ -38,3 +38,12 @@ test('catch journal persists photos, sorts records, merges backups and deletes a
   assert.equal(records[0].fishId,'002');
   await deleteCatch('catch-2');
 });
+
+test('new species and unidentified catches preserve names and quantities in backups',async()=>{
+ for(const entry of [{fishId:'060',quantity:8},{fishId:'other',customName:'Unknown wrasse',quantity:1}]){
+  const [record]=validateBackup({version:1,catches:[{...sample,...entry}]});
+  assert.equal(record.quantity,entry.quantity);assert.equal(record.customName,entry.customName);
+  await saveCatch(record);assert.equal((await getCatches())[0].fishId,entry.fishId);await deleteCatch(record.id);
+ }
+ for(const change of [{fishId:'other'},{quantity:0},{quantity:1.5},{quantity:10000},{customName:'a'.repeat(121)}])assert.throws(()=>validateBackup({version:1,catches:[{...sample,...change}]}));
+});

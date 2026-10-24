@@ -6,3 +6,4 @@ out/
 public/sw.js
 public/offline-shell.html
 test-results/
+.cache/
