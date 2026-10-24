@@ -42,8 +42,16 @@ export default function SpeciesScanner({ photo: initialPhoto, onSelect, onBack }
     worker = useRef<Worker | null>(null),
     upload = useRef<HTMLInputElement>(null),
     fallbackCamera = useRef<HTMLInputElement>(null),
+    resultsRef = useRef<HTMLElement>(null),
     mounted = useRef(true),
     request = useRef(0);
+  useEffect(() => {
+    if (result)
+      resultsRef.current?.scrollIntoView({
+        block: 'start',
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      });
+  }, [result]);
   function stopCamera() {
     request.current++;
     stream.current?.getTracks().forEach((track) => track.stop());
@@ -310,8 +318,8 @@ export default function SpeciesScanner({ photo: initialPhoto, onSelect, onBack }
           <div>
             <strong>{cached ? 'Restart your scanner' : 'Prepare your pocket AI'}</strong>
             <p>
-              First setup downloads about 61 MB over Wi-Fi. The model stays on this device for
-              offline use, subject to browser storage.
+              First setup downloads about 61 MB; Wi-Fi is recommended. The model stays on this
+              device for offline use, subject to browser storage.
             </p>
             <button className="primary-button full-width" onClick={prepare}>
               {cached ? 'Restart scanner' : 'Download & prepare scanner'}
@@ -350,7 +358,7 @@ export default function SpeciesScanner({ photo: initialPhoto, onSelect, onBack }
         </p>
       )}
       {result && (
-        <section className="scanner-results" aria-label="Species suggestions">
+        <section ref={resultsRef} className="scanner-results" aria-label="Species suggestions">
           <span className="eyebrow">
             {result.reason === 'no-animal'
               ? 'NO CLEAR MATCH'
