@@ -10,23 +10,35 @@
     "test": "tsx --test tests/storage.test.ts tests/rules.test.ts tests/catch-id.test.ts tests/offline-build.test.mjs tests/catalogue.test.ts"
   },
   "dependencies": {
+    "@auth/core": "0.41.1",
+    "@convex-dev/auth": "^0.0.96",
     "@fontsource/dm-sans": "^5.3.0",
     "@fontsource/silkscreen": "^5.3.0",
     "@fontsource/space-mono": "^5.3.0",
+    "@noble/hashes": "^1.8.0",
+    "@zxing/browser": "0.1.5",
+    "@zxing/library": "0.21.3",
+    "convex": "^1.48.0",
     "lucide-react": "^0.577.0",
     "next": "16.4.3",
+    "qrcode": "^1.5.4",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "@types/web-push": "^3.6.4",
     "cheerio": "1.0.0",
+    "convex-test": "^0.0.65",
     "fake-indexeddb": "^6.2.0",
     "gifenc": "^1.0.3",
     "sharp": "0.35.5",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.0"
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.12"
   }
 }
