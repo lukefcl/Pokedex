@@ -6,8 +6,8 @@ import { deleteCatch, getCatches, importCatches, saveCatch, validateBackup, type
 const sample = { id:'catch-1', fishId:'001', date:'2026-10-23', location:'Hauraki Gulf', length:'35', notes:'Released.', released:true, createdAt:'2026-10-23T00:00:00.000Z', photo:'data:image/jpeg;base64,/9j/2Q==' };
 test('backup preserves catch metadata and reconstructs local photo blobs', () => {
   const [record] = validateBackup({version:1,catches:[sample]});
-  assert.equal(record.photo.type,'image/jpeg');
-  assert.equal(record.photo.size,4);
+  assert.equal(record.photo?.type,'image/jpeg');
+  assert.equal(record.photo?.size,4);
   assert.equal(record.location,sample.location);
   assert.equal(record.released,true);
 });
@@ -18,14 +18,14 @@ test('fishing areas survive backup and old backups without areas remain valid',(
   assert.throws(()=>validateBackup({version:1,catches:[{...sample,areaId:'unknown-region'}]}));
 });
 test('reject malformed backups, unknown species, duplicate IDs, invalid dates and non-image data', () => {
-  for (const input of [null,{}, {version:2,catches:[]}, {version:1,catches:[{...sample,fishId:'999'}]}, {version:1,catches:[sample,sample]}, {version:1,catches:[{...sample,date:'2026-02-31'}]}, {version:1,catches:[{...sample,photo:'data:text/html;base64,AAAA'}]}, {version:1,catches:[{...sample,length:'-4'}]}]) assert.throws(() => validateBackup(input));
+  for (const input of [null,{}, {version:3,catches:[]}, {version:1,catches:[{...sample,fishId:'999'}]}, {version:1,catches:[sample,sample]}, {version:1,catches:[{...sample,date:'2026-02-31'}]}, {version:1,catches:[{...sample,photo:'data:text/html;base64,AAAA'}]}, {version:1,catches:[{...sample,length:'-4'}]}]) assert.throws(() => validateBackup(input));
 });
 test('catch journal persists photos, sorts records, merges backups and deletes atomically', async () => {
   const [record] = validateBackup({version:1,catches:[sample]});
   await saveCatch(record);
   let records = await getCatches();
   assert.equal(records.length,1);
-  assert.equal(records[0].photo.size,4);
+  assert.equal(records[0].photo?.size,4);
   const second:CatchRecord = {...record,id:'catch-2',date:'2026-10-24',fishId:'002'};
   await importCatches([{...record,notes:'Updated in backup'},second]);
   records = await getCatches();
@@ -46,4 +46,19 @@ test('new species and unidentified catches preserve names and quantities in back
   await saveCatch(record);assert.equal((await getCatches())[0].fishId,entry.fishId);await deleteCatch(record.id);
  }
  for(const change of [{fishId:'other'},{quantity:0},{quantity:1.5},{quantity:10000},{customName:'a'.repeat(121)}])assert.throws(()=>validateBackup({version:1,catches:[{...sample,...change}]}));
+});
+
+test('v2 photo-free sightings round-trip locally and legacy catches retain their meaning',async()=>{
+ const [sighting]=validateBackup({version:2,catches:[{...sample,id:'sighting-1',fishId:'075',kind:'sighting',quantity:4,photo:null,areaId:'auckland-east'}]});
+ assert.equal(sighting.kind,'sighting');assert.equal(sighting.photo,null);assert.equal(sighting.released,false);assert.equal(sighting.length,'');assert.equal(sighting.areaId,undefined);
+ await saveCatch(sighting);const saved=(await getCatches()).find(record=>record.id==='sighting-1')!;assert.equal(saved.quantity,4);assert.equal(saved.photo,null);
+ const [restored]=validateBackup({version:2,catches:[{...saved,photo:null}]});assert.equal(restored.kind,'sighting');assert.equal(restored.photo,null);
+ const [legacy]=validateBackup({version:1,catches:[sample]});assert.equal(legacy.kind,'catch');assert.equal(legacy.photo?.size,4);
+ await deleteCatch(sighting.id);
+});
+
+test('backups reject catches without photos, wildlife catches and invalid record types',()=>{
+ for(const change of [{photo:null},{fishId:'075',kind:'catch'},{kind:'unknown'},{kind:'sighting',photo:undefined}])assert.throws(()=>validateBackup({version:2,catches:[{...sample,...change}]}));
+ assert.throws(()=>validateBackup({version:'2',catches:[]}));
+ const [sighting]=validateBackup({version:2,catches:[{...sample,kind:'sighting',photo:null}]});assert.equal(sighting.kind,'sighting');
 });

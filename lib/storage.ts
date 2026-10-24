@@ -1,8 +1,8 @@
-import { findFish } from './fish';
+import { findFish, type RecordKind } from './fish';
 import { areaById } from './rules';
 
-export type CatchRecord = { id: string; fishId: string; date: string; location: string; length: string; notes: string; released: boolean; photo: Blob; createdAt: string; areaId?: string; customName?: string; quantity?: number };
-export type BackupCatch = Omit<CatchRecord, 'photo'> & { photo: string };
+export type CatchRecord = { id: string; fishId: string; date: string; location: string; length: string; notes: string; released: boolean; photo: Blob|null; kind?:RecordKind; createdAt: string; areaId?: string; customName?: string; quantity?: number };
+export type BackupCatch = Omit<CatchRecord, 'photo'> & { photo: string|null };
 const DB_NAME = 'findex-device';
 function openDB(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -52,21 +52,30 @@ export async function preparePhoto(file: File): Promise<Blob> {
   return new Promise((resolve,reject) => canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error('Could not prepare this photo.')), 'image/jpeg', .85));
 }
 export function validateBackup(input: unknown): CatchRecord[] {
-  if (!input || typeof input !== 'object' || !('version' in input) || input.version !== 1 || !('catches' in input) || !Array.isArray(input.catches)) throw new Error('This is not a FINDEX v1 backup.');
-  if (input.catches.length > 5000) throw new Error('A backup can contain at most 5,000 catches.');
+  if (!input || typeof input !== 'object' || !('version' in input) || (input.version !== 1 && input.version !== 2) || !('catches' in input) || !Array.isArray(input.catches)) throw new Error('This is not a FINDEX v1 or v2 backup.');
+  if (input.catches.length > 5000) throw new Error('A backup can contain at most 5,000 records.');
   const seen = new Set<string>();
   return input.catches.map((record: unknown) => {
-    if (!record || typeof record !== 'object') throw new Error('The backup contains an invalid catch.');
+    if (!record || typeof record !== 'object') throw new Error('The backup contains an invalid record.');
     const r = record as BackupCatch;
-    if (typeof r.id !== 'string' || !r.id || r.id.length > 100 || seen.has(r.id) || !findFish(r.fishId) || typeof r.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(r.date) || !Number.isFinite(Date.parse(r.date)) || new Date(r.date).toISOString().slice(0,10) !== r.date || typeof r.createdAt !== 'string' || !Number.isFinite(Date.parse(r.createdAt)) || typeof r.released !== 'boolean' || typeof r.location !== 'string' || r.location.length > 120 || typeof r.notes !== 'string' || r.notes.length > 1000 || typeof r.length !== 'string' || (r.length !== '' && (!Number.isFinite(Number(r.length)) || Number(r.length) <= 0 || Number(r.length) > 3000)) || typeof r.photo !== 'string' || r.photo.length > 8_000_000 || !/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+=*$/.test(r.photo)) throw new Error('The backup contains an invalid catch or photo.');
+    const entry = findFish(r.fishId);
+    if (typeof r.id !== 'string' || !r.id || r.id.length > 100 || seen.has(r.id) || !entry || typeof r.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(r.date) || !Number.isFinite(Date.parse(r.date)) || new Date(r.date).toISOString().slice(0,10) !== r.date || typeof r.createdAt !== 'string' || !Number.isFinite(Date.parse(r.createdAt)) || typeof r.released !== 'boolean' || typeof r.location !== 'string' || r.location.length > 120 || typeof r.notes !== 'string' || r.notes.length > 1000 || typeof r.length !== 'string' || (r.length !== '' && (!Number.isFinite(Number(r.length)) || Number(r.length) <= 0 || Number(r.length) > 3000))) throw new Error('The backup contains an invalid record.');
+    if (r.kind !== undefined && r.kind !== 'catch' && r.kind !== 'sighting') throw new Error('Unknown record type.');
+    if (entry.sightingOnly && r.kind === 'catch') throw new Error('Marine mammals can only be recorded as sightings.');
+    const kind:RecordKind = entry.sightingOnly ? 'sighting' : r.kind || 'catch';
     if (r.customName !== undefined && (typeof r.customName !== 'string' || r.customName.length > 120)) throw new Error('Invalid custom species name.');
-    if (r.fishId === 'other' && !r.customName?.trim()) throw new Error('An unidentified catch needs a name.');
-    if (r.quantity !== undefined && (!Number.isInteger(r.quantity) || r.quantity < 1 || r.quantity > 9999)) throw new Error('Invalid catch quantity.');
-    seen.add(r.id);
+    if (r.fishId === 'other' && !r.customName?.trim()) throw new Error('An unidentified record needs a name.');
+    if (r.quantity !== undefined && (!Number.isInteger(r.quantity) || r.quantity < 1 || r.quantity > 9999)) throw new Error('Invalid quantity.');
     if (r.areaId !== undefined && (typeof r.areaId !== 'string' || (r.areaId !== '' && !areaById(r.areaId)))) throw new Error('The backup contains an unknown fishing area.');
-    const [header, data] = r.photo.split(',');
-    let binary: string; try { binary = atob(data); } catch { throw new Error('The backup contains an unreadable photo.'); }
-    const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
-    return { id:r.id, fishId:r.fishId, ...(r.customName ? {customName:r.customName.trim()} : {}), ...(r.quantity !== undefined ? {quantity:r.quantity} : {}), date:r.date, location:r.location, length:r.length, notes:r.notes, released:r.released, createdAt:r.createdAt, ...(r.areaId ? {areaId:r.areaId} : {}), photo:new Blob([bytes], { type: header.match(/data:(.*);/)![1] }) };
+    let photo:Blob|null = null;
+    if (r.photo !== null) {
+      if (typeof r.photo !== 'string' || r.photo.length > 8_000_000 || !/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+=*$/.test(r.photo)) throw new Error('The backup contains an invalid photo.');
+      const [header,data] = r.photo.split(',');
+      let binary:string; try { binary=atob(data); } catch { throw new Error('The backup contains an unreadable photo.'); }
+      const bytes=Uint8Array.from(binary,char=>char.charCodeAt(0));
+      photo=new Blob([bytes],{type:header.match(/data:(.*);/)![1]});
+    } else if (kind !== 'sighting') throw new Error('A catch requires a photo.');
+    seen.add(r.id);
+    return {id:r.id,fishId:r.fishId,kind,date:r.date,location:r.location,length:kind==='sighting'?'':r.length,notes:r.notes,released:kind==='sighting'?false:r.released,createdAt:r.createdAt,photo,...(r.customName?{customName:r.customName.trim()}:{}),...(r.quantity!==undefined?{quantity:r.quantity}:{}),...(r.areaId&&kind==='catch'?{areaId:r.areaId}:{})};
   });
 }

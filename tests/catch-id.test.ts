@@ -30,6 +30,6 @@ test('photo catches persist and coexist when randomUUID is unavailable', async (
     const records = await getCatches();
     const saved = records.filter(record => [first.id,second.id].includes(record.id));
     assert.equal(saved.length,2);
-    assert.equal(saved[0].photo.size,first.photo.size);
+    assert.equal(saved[0].photo?.size,first.photo?.size);
   } finally { await deleteCatch(first.id); await deleteCatch(second.id); }
 });

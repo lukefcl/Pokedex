@@ -27,10 +27,10 @@ export function Dialog({title,children,close}:{title:string;children:ReactNode;c
   },[]);
   return <section ref={ref} className="screen-overlay" role="dialog" aria-modal="true" aria-label={title}><div className="dialog-header"><button className="icon-button" aria-label="Close dialog" onClick={close}><ArrowLeft size={19}/></button><span className="eyebrow">{title}</span><span className="overlay-code">FX–01</span></div><div className="overlay-scroll">{children}</div></section>;
 }
-export function CatchPhoto({photo,alt,className=''}:{photo:Blob;alt:string;className?:string}){
+export function CatchPhoto({photo,alt,className=''}:{photo:Blob|null;alt:string;className?:string}){
   const [url,setUrl]=useState('');
-  useEffect(()=>{const objectURL=URL.createObjectURL(photo);setUrl(objectURL);return()=>URL.revokeObjectURL(objectURL);},[photo]);
+  useEffect(()=>{if(!photo){setUrl('');return;}const objectURL=URL.createObjectURL(photo);setUrl(objectURL);return()=>URL.revokeObjectURL(objectURL);},[photo]);
   // Local blob URLs never go through a server or image service.
   // eslint-disable-next-line @next/next/no-img-element
-  return url?<img src={url} alt={alt} className={className}/>:<div className={`photo-placeholder ${className}`}><Camera/></div>;
+  return url?<img src={url} alt={alt} className={className}/>:<div role="img" aria-label="No photo added" className={`photo-placeholder ${className}`}><Camera/></div>;
 }

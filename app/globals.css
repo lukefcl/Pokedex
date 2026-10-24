@@ -24,7 +24,7 @@
 .species-controls>span{overflow-wrap:anywhere;text-align:center;padding:6px 0}
 .unlisted-button{margin-top:13px;font-size:10px}
 .catch-card>.catch-art,.catch-art{position:relative;height:132px;isolation:isolate;padding:0;background:#bdcbb1;overflow:hidden}
-.catch-art>.catch-art-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:.56;z-index:-2}
+.catch-art>.catch-art-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.56;z-index:-2}
 .catch-art-shade{position:absolute;inset:0;background:linear-gradient(180deg,#dce4c912,#dce4c954);z-index:-1}
 .catch-art>.fish-sprite{position:absolute;inset:8px 4px 10px;width:calc(100% - 8px);height:calc(100% - 18px);filter:drop-shadow(1px 2px 0 #233a3240)}
 .catch-art-number{position:absolute;bottom:6px;left:7px;font:6px var(--mono);letter-spacing:1px;color:#294c35;background:#e5ecd0d9;padding:3px 4px;border-radius:2px}
@@ -43,3 +43,13 @@
 .original-photo>summary{font-size:11px;padding:12px;cursor:pointer;background:#d1dfbc;color:#4c6b39}
 .original-photo>.catch-detail-photo{height:auto;max-height:360px;object-fit:contain}
 @media(max-width:520px){.catch-card>.catch-art{height:126px}}
+.journal-actions{display:flex;gap:8px;margin-top:16px}
+.journal-actions>button{flex:1;padding:11px 8px;font-size:10px;min-width:0}
+.journal-filter{margin-bottom:12px;justify-content:center;border:1px solid #b3c69f}
+.journal-filter>button{flex:1;padding:9px;font-size:10px}
+.record-kind-badge{position:absolute;right:6px;top:6px;padding:4px 5px;font:6px var(--mono);letter-spacing:.6px;border-radius:2px;background:#e5ecd0e8;color:#36572c}
+.wildlife-guidance{background:#c4d9bd;border-color:#9ab78f}
+.change-photo>button{display:inline-flex;align-items:center;gap:5px;padding:0;font:inherit}
+.catch-form>.form-privacy{font-size:8px}
+.species-name h2{overflow-wrap:anywhere}
+@media(max-width:360px){.journal-actions>button{font-size:9px;gap:5px}.journal-actions{gap:5px}}

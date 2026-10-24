@@ -73,6 +73,8 @@ const entries=source.entries.map(e=>{
   return {id,name:old?.name||e.name,maori:old?.maori||e.maori.split(',')[0].replace(/\s*\(.*/,'')||'',scientific:e.slug==='hapuku'?'Polyprion oxygeneios':e.scientific,slug:e.slug,habitat:row[1],category:row[2],description:row[3],funFact:row[4],clue:row[5],aliases:[e.aliases,e.maori].filter(Boolean).join(', '),sourceUrl:e.sourceUrl,imageCredit:e.credit,creditLinks:e.creditLinks,protected:['great-white-shark','basking-shark','whale-shark','manta-ray'].includes(e.slug)};
 });
 for(const id of ['014','017']){const old=legacy.find(e=>e.id===id);entries.push({...old,slug:id==='014'?'red-cod':'blue-warehou',category:'Finfish',funFact:id==='014'?'A small chin barbel and dark pectoral-fin base help distinguish red cod.':'Blue warehou can gather in schools over the continental shelf.',aliases:'',sourceUrl:'',imageCredit:'Original AI illustration; retained FINDEX species.',creditLinks:[],protected:false});}
+const existing=JSON.parse(await readFile('lib/species.json','utf8').catch(()=> '[]'));
+entries.push(...existing.filter(e=>Number(e.id)>60));
 entries.sort((a,b)=>a.id.localeCompare(b.id));
 await writeFile('lib/species.json',JSON.stringify(entries,null,2)+'\n');
 console.log(`Prepared ${entries.length} entries with stable legacy IDs.`);

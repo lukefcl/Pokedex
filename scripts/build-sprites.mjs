@@ -6,7 +6,8 @@ const width=128,height=96;
 const catalogue=JSON.parse(await readFile('lib/species.json','utf8'));
 const shellfish=new Set(catalogue.filter(e=>e.category==='Kaimoana').map(e=>e.slug));
 await mkdir('public/sprites',{recursive:true});
-const files=(await readdir('.cache/sprite-masters')).filter(name=>name.endsWith('.png'));
+const requested=new Set(process.argv.slice(2));
+const files=(await readdir('.cache/sprite-masters')).filter(name=>name.endsWith('.png')&&(!requested.size||requested.has(name.slice(0,-4))));
 for(const file of files){
   const slug=file.slice(0,-4);
   const scaled=await sharp('.cache/sprite-masters/'+file).trim().resize(112,80,{fit:'inside',kernel:'nearest'}).png().toBuffer();

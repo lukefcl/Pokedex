@@ -388,3 +388,207 @@ CC BY 2.0: https://creativecommons.org/licenses/by/2.0
 
 ## Unidentified catch
 public/sprites/unidentified.png and .gif — original AI placeholder generated from a descriptive prompt.
+
+# Additional catches and wildlife sightings (25 October 2026)
+
+The following sprites were generated individually with built-in ImageGen from anatomical descriptions, using FINDEX snapper pixel artwork only as a style reference. No source photo was used. Original short facts refer to the primary sources linked below. Exact prompts are in scripts/sprite-prompts.json.
+
+## 061 — Arrow squid
+
+Sprites: public/sprites/arrow-squid.png and .gif
+
+Species information: [Te Ara](https://teara.govt.nz/en/octopus-and-squid/page-6)
+
+
+
+## 062 — Common octopus
+
+Sprites: public/sprites/common-octopus.png and .gif
+
+Species information: [Te Ara](https://teara.govt.nz/en/octopus-and-squid/page-4)
+
+
+
+## 063 — Mahi-mahi
+
+Sprites: public/sprites/mahi-mahi.png and .gif
+
+Species information: [NOAA Fisheries](https://www.fisheries.noaa.gov/species/pacific-mahimahi)
+
+
+
+## 064 — Rainbow trout
+
+Sprites: public/sprites/rainbow-trout.png and .gif
+
+Species information: [Fish & Game](https://www.fishandgame.org.nz/freshwater-fishing-in-new-zealand/getting-started/our-new-zealand-fish-species/rainbow-trout/)
+
+
+
+## 065 — Parore
+
+Sprites: public/sprites/parore.png and .gif
+
+Species information: [Te Papa](https://collections.tepapa.govt.nz/taxon/1640)
+
+
+
+## 066 — Skipjack tuna
+
+Sprites: public/sprites/skipjack-tuna.png and .gif
+
+Species information: [Fisheries New Zealand](https://www.mpi.govt.nz/fishing-aquaculture/fisheries-management/highly-migratory-species)
+
+
+
+## 067 — Striped marlin
+
+Sprites: public/sprites/striped-marlin.png and .gif
+
+Species information: [Fisheries New Zealand](https://www.mpi.govt.nz/dmsdocument/55393/direct)
+
+
+
+## 068 — Swordfish
+
+Sprites: public/sprites/swordfish.png and .gif
+
+Species information: [Fisheries New Zealand](https://www.mpi.govt.nz/dmsdocument/55393/direct)
+
+
+
+## 069 — Blue mackerel
+
+Sprites: public/sprites/blue-mackerel.png and .gif
+
+Species information: [NIWA](https://marlin.niwa.co.nz/databases)
+
+
+
+## 070 — Spotty
+
+Sprites: public/sprites/spotty.png and .gif
+
+Species information: [Te Ara](https://teara.govt.nz/en/photograph/8813/female-spotty)
+
+
+
+## 071 — Kōheru
+
+Sprites: public/sprites/koheru.png and .gif
+
+Species information: [Te Ara](https://teara.govt.nz/en/photograph/8826/koheru)
+
+
+
+## 072 — Sea perch
+
+Sprites: public/sprites/sea-perch.png and .gif
+
+Species information: [Fisheries New Zealand](https://www.mpi.govt.nz/dmsdocument/57664/direct)
+
+
+
+## 073 — Longfin eel
+
+Sprites: public/sprites/longfin-eel.png and .gif
+
+Species information: [NIWA](https://niwa.co.nz/freshwater/nz-freshwater-fish-database/niwa-atlas-nz-freshwater-fishes/longfin-eel)
+
+
+
+## 074 — Shortfin eel
+
+Sprites: public/sprites/shortfin-eel.png and .gif
+
+Species information: [Department of Conservation](https://www.doc.govt.nz/nature/native-animals/freshwater-fish/eels/)
+
+
+
+## 075 — Orca
+
+Sprites: public/sprites/orca.png and .gif
+
+Species information: [Department of Conservation](https://blog.doc.govt.nz/2025/03/02/get-to-know-marine-mammals/)
+
+Sightings only.
+
+## 076 — Common dolphin
+
+Sprites: public/sprites/common-dolphin.png and .gif
+
+Species information: [Department of Conservation](https://www.doc.govt.nz/globalassets/documents/conservation/marine-and-coastal/marine-conservation-services/resources/doc-csp-fishers-guide-to-marine-mammals.pdf)
+
+Sightings only.
+
+## 077 — Bottlenose dolphin
+
+Sprites: public/sprites/bottlenose-dolphin.png and .gif
+
+Species information: [Department of Conservation](https://www.doc.govt.nz/nature/native-animals/marine-mammals/dolphins/bottlenose-dolphin/)
+
+Sightings only.
+
+## 078 — Hector’s / Māui dolphin
+
+Sprites: public/sprites/hectors-dolphin.png and .gif
+
+Species information: [Department of Conservation](https://blog.doc.govt.nz/2025/03/02/get-to-know-marine-mammals/)
+
+Sightings only.
+
+## 079 — Dusky dolphin
+
+Sprites: public/sprites/dusky-dolphin.png and .gif
+
+Species information: [Department of Conservation](https://www.doc.govt.nz/nature/native-animals/marine-mammals/dolphins/dusky-dolphin/)
+
+Sightings only.
+
+## 080 — Humpback whale
+
+Sprites: public/sprites/humpback-whale.png and .gif
+
+Species information: [Department of Conservation](https://www.doc.govt.nz/documents/conservation/native-animals/marine-mammals/marine-mammal-poster.pdf)
+
+Sightings only.
+
+## 081 — Sperm whale
+
+Sprites: public/sprites/sperm-whale.png and .gif
+
+Species information: [Department of Conservation](https://www.doc.govt.nz/documents/conservation/native-animals/marine-mammals/marine-mammal-poster.pdf)
+
+Sightings only.
+
+## 082 — Southern right whale
+
+Sprites: public/sprites/southern-right-whale.png and .gif
+
+Species information: [Department of Conservation](https://www.doc.govt.nz/Documents/conservation/native-animals/marine-mammals/marine-mammals-count.pdf)
+
+Sightings only.
+
+## 083 — Blue whale
+
+Sprites: public/sprites/blue-whale.png and .gif
+
+Species information: [Department of Conservation](https://www.doc.govt.nz/documents/conservation/native-animals/marine-mammals/marine-mammal-poster.pdf)
+
+Sightings only.
+
+## 084 — Bryde’s whale
+
+Sprites: public/sprites/brydes-whale.png and .gif
+
+Species information: [International Whaling Commission](https://wwhandbook.iwc.int/en/country-profiles/new-zealand)
+
+Sightings only.
+
+## 085 — Long-finned pilot whale
+
+Sprites: public/sprites/long-finned-pilot-whale.png and .gif
+
+Species information: [Department of Conservation](https://www.doc.govt.nz/nature/native-animals/marine-mammals/dolphins/pilot-whales/)
+
+Sightings only.

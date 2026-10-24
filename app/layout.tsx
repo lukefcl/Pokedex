@@ -3,7 +3,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'FINDEX — Aotearoa Fish Field Guide',
-  description: 'An old-school field guide for a new fishing adventure. Discover New Zealand fish and keep a private, offline photo journal of your catches.',
+  description: 'An old-school field guide for a new fishing adventure. Discover New Zealand fish and marine wildlife, and keep a private, offline catch and sighting journal.',
   applicationName: 'FINDEX',
   appleWebApp: { capable: true, statusBarStyle: 'default', title: 'FINDEX' },
   icons: { icon: '/icons/icon-192.png', apple: '/icons/apple-touch-icon.png' },

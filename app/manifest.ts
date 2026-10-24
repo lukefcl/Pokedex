@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next';
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: '/', name: 'FINDEX — Aotearoa Fish Field Guide', short_name: 'FINDEX',
-    description: 'Your pocket-sized New Zealand fish guide and private catch journal.',
+    description: 'Your New Zealand fish and wildlife guide with a private catch and sighting journal.',
     start_url: '/', scope: '/', display: 'standalone',
     background_color: '#c23e3f', theme_color: '#c23e3f',
     categories: ['lifestyle', 'education'],
