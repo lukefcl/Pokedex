@@ -6,6 +6,19 @@ import { join } from 'node:path';
 import vm from 'node:vm';
 import { buildOfflineWorker } from '../scripts/build-offline.mjs';
 
+test('push displays a notification and opens only the local mates feed',async()=>{
+  const handlers=new Map(),shown=[],opened=[],messages=[];let focused=false,closed=false;
+  const client={url:'https://findex.test/',focus:async()=>{focused=true;},postMessage:value=>messages.push(value)};
+  const self={location:{origin:'https://findex.test'},addEventListener:(name,handler)=>handlers.set(name,handler),registration:{showNotification:async(...args)=>shown.push(args)},clients:{matchAll:async()=>[client],openWindow:async url=>opened.push(url)}};
+  const source=(await readFile(new URL('../scripts/sw-template.js',import.meta.url),'utf8')).replace('__PRECACHE__','[]').replace('__CACHE_VERSION__','qa');
+  vm.runInNewContext(source,{self,URL});
+  let work;handlers.get('push')({data:{json:()=>({title:'A mate caught snapper',body:'Open the feed',tag:'123',url:'https://attacker.example/'})},waitUntil:p=>{work=p;}});await work;
+  assert.equal(shown.length,1);assert.equal(shown[0][0],'A mate caught snapper');assert.equal(shown[0][1].icon,'/icons/icon-192.png');
+  handlers.get('notificationclick')({notification:{close:()=>{closed=true;},data:{url:'https://attacker.example/'}},waitUntil:p=>{work=p;}});await work;
+  assert.equal(closed,true);assert.equal(focused,true);assert.equal(messages[0].type,'OPEN_FRIENDS');assert.equal(opened.length,0);
+  self.clients.matchAll=async()=>[];handlers.get('notificationclick')({notification:{close:()=>{}},waitUntil:p=>{work=p;}});await work;assert.deepEqual(opened,['/#friends']);
+});
+
 async function fixture(run) {
   const projectDir = await mkdtemp(join(tmpdir(), 'findex-offline-'));
   const distDir = join(projectDir, 'custom-next-output');

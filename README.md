@@ -1,6 +1,6 @@
 # FINDEX
 
-A mobile PWA built as a retro Pokédex handheld, using Next.js App Router, React and TypeScript. The device body fills the phone and frames a single LCD screen. Guide, journal, regional limits, settings and photo forms all run inside that screen, with safe-area support and physical-style D-pad / A / B controls. All catch records and photos stay in IndexedDB on the user's device.
+A mobile PWA built as a retro Pokédex handheld, using Next.js App Router, React and TypeScript. The device body fills the phone and frames a single LCD screen. Guide, journal, regional limits, settings and photo forms all run inside that screen, with safe-area support and physical-style D-pad / A / B controls. The full catch journal stays in IndexedDB on the user's device. An optional Friends tab uses Convex for private profiles, QR invites, shared collections, a live mates’ feed and opt-in catch notifications. See [ONLINE.md](ONLINE.md) for setup and recovery.
 
 ## Run locally
 
@@ -22,11 +22,13 @@ npm start
 
 The Next.js `runAfterProductionCompile` hook generates a versioned service worker before hosting adapters collect or relocate the build output. It lists the compiled JS, CSS and font assets without reading internal server HTML or `BUILD_ID`. On the first online visit, the worker caches the served homepage, all sprite PNG/GIF files, and those assets. After the screen status bar says **OFFLINE READY**, the app can reopen and operate offline. Every production build gets a new cache version. Installation fails if any required resource cannot be cached. Use a dedicated origin and serve the generated `/sw.js` with the built public assets.
 
-On Vercel, use the standard **Next.js** preset and **npm run build**. No output-directory override, server HTML copying or extra post-build command is needed. The worker is generated before Vercel's `onBuildComplete` adapter stage, so it is ready for deployment packaging.
+On Vercel, use the standard **Next.js** preset and the repository’s `vercel.json` build command. With `CONVEX_DEPLOY_KEY` set in Vercel, it deploys Convex and builds Next.js with the matching public backend URL; without a key, it performs a normal Next.js build. No output-directory override, server HTML copying or extra post-build command is needed. The worker is generated before Vercel's `onBuildComplete` adapter stage, so it is ready for deployment packaging.
 
 The web manifest includes 192px and 512px icons, a maskable icon and an Apple touch icon. HTTPS is required outside localhost for service workers and installation. Install from the in-app footer, the browser menu, or Safari's Share → Add to Home Screen. The install dialog explains platform differences. Installation and eviction behavior depend on the browser.
 
 ## Features
+
+- Optional private online profiles, ten-minute QR invites with friend approval, live catch/sighting feeds, shared species collections, in-app catch toasts and opt-in Web Push. The local journal remains usable offline; an account-scoped outbox syncs selected records after reconnection. Locations and notes are never shared. [Online setup and privacy](ONLINE.md).
 
 - 85 aquatic catalogue entries: the original 60, plus 14 catchable entries and 11 marine-mammal entries for sightings. New additions include squid, octopus, mahi-mahi, rainbow trout, parore, skipjack, marlin, swordfish, mackerel, spotty, kōheru, sea perch and native eels. Whales, orcas and dolphins have their own Marine mammals filter. Stable IDs preserve existing catches. Common/scientific names, habitats, original short summaries and paraphrased fun facts link to Fish Species NZ, DOC, Te Ara, MPI, NIWA, Fish & Game, NOAA and IWC sources.
 - Original AI-generated pixel artwork for every entry plus an unidentified-catch placeholder. Each has a 128×96 transparent PNG and an eight-frame looping GIF. Lists use stills; detail views and catch cards animate. Reduced-motion preferences select the still image. All artwork is bundled locally.
@@ -59,7 +61,7 @@ npm test
 npm run build
 ```
 
-Tests cover photo backups, invalid backup rejection, area migration, IndexedDB persistence / merge / deletion, regional rule differences, shared totals, seasonal closure boundaries and Fiordland restrictions. Verify production offline behavior in a real browser after the service worker activates. Icon assets can be regenerated with `node scripts/create-icons.mjs` (Sharp is provided by Next.js).
+Tests also cover online authorization, QR expiry, friend approval/revocation, private photos, duplicate-alert prevention, owner-scoped queues and safe notification navigation. Tests cover photo backups, invalid backup rejection, area migration, IndexedDB persistence / merge / deletion, regional rule differences, shared totals, seasonal closure boundaries and Fiordland restrictions. Verify production offline behavior in a real browser after the service worker activates. Icon assets can be regenerated with `node scripts/create-icons.mjs` (Sharp is provided by Next.js).
 
 ## Artwork and species sources
 

@@ -7,9 +7,12 @@ import {createCatchId} from '@/lib/catch-id';
 import {areas,getRule,sizeLabel,bagLabel} from '@/lib/rules';
 import {Dialog,CatchPhoto,today} from './screen-ui';
 import SpeciesGuidance from './species-guidance';
+import {useSocial} from './social/provider';
 
-type Props={selected:Fish;initial?:CatchRecord;mode?:RecordKind;areaId:string;close:()=>void;onSave:(record:CatchRecord)=>Promise<void>};
+type Props={selected:Fish;initial?:CatchRecord;mode?:RecordKind;areaId:string;close:()=>void;onSave:(record:CatchRecord,share:boolean)=>Promise<void>};
 export default function CatchForm({selected,areaId,close,onSave,initial,mode}:Props){
+  const social=useSocial();
+  const [share,setShare]=useState(initial?social.isShared(initial.id):social.me?.autoShare||false);
   const [fishId,setFishId]=useState(initial?.fishId||selected.id);
   const [kind,setKind]=useState<RecordKind>(initial?recordKind(initial):mode||(selected.sightingOnly?'sighting':'catch'));
   const [customName,setCustomName]=useState(initial?.customName||'');
@@ -39,7 +42,7 @@ export default function CatchForm({selected,areaId,close,onSave,initial,mode}:Pr
     if(!date||date>today()){setError('Choose today or an earlier record date.');return;}
     setSaving(true);
     try{
-      await onSave({id:initial?.id||createCatchId(),fishId,kind:sighting?'sighting':'catch',date,location:location.trim(),length:sighting?'':length,notes:notes.trim(),released:sighting?false:entry.protected||released,photo,quantity:Number(quantity),...(fishId==='other'?{customName:customName.trim()}:{}),createdAt:initial?.createdAt||new Date().toISOString(),areaId:sighting?'':catchArea});
+      await onSave({id:initial?.id||createCatchId(),fishId,kind:sighting?'sighting':'catch',date,location:location.trim(),length:sighting?'':length,notes:notes.trim(),released:sighting?false:entry.protected||released,photo,quantity:Number(quantity),...(fishId==='other'?{customName:customName.trim()}:{}),createdAt:initial?.createdAt||new Date().toISOString(),areaId:sighting?'':catchArea},share);
       if(navigator.storage?.persist)navigator.storage.persist().catch(()=>{});
     }catch(error){setError(error instanceof Error?error.message:'Could not save your record.');setSaving(false);}
   }
@@ -62,8 +65,9 @@ export default function CatchForm({selected,areaId,close,onSave,initial,mode}:Pr
       <label className="form-label">{sighting?'Where did you spot it?':'Where was the adventure?'} <span>(optional)</span><input aria-label="Location" maxLength={120} placeholder="e.g. Hauraki Gulf" value={location} onChange={event=>setLocation(event.target.value)}/></label>
       <label className="form-label">Field notes <span>(optional)</span><textarea aria-label="Field notes" maxLength={1000} rows={2} placeholder={sighting?'Behaviour, direction, conditions…':'The lure, the weather, the story…'} value={notes} onChange={event=>setNotes(event.target.value)}/></label>
       {!sighting&&<label className="release-checkbox"><input type="checkbox" checked={entry.protected||released} disabled={entry.protected} onChange={event=>setReleased(event.target.checked)}/><Waves size={18}/><span>{entry.protected?'Incidental catch / released (protected species)':'Released back to the water'}</span></label>}
+      {social.me&&<div className="sharing-choice"><label className="release-checkbox"><input type="checkbox" checked={share} disabled={!!initial&&!social.canShare(initial.id)} onChange={e=>setShare(e.target.checked)}/><span>Share with my accepted mates</span></label><p>{initial&&!social.canShare(initial.id)?'This record is linked to another online profile. Sign into that profile to update its sharing.':'Shares species, date, size, quantity, outcome and a photo thumbnail. Locations and notes stay private. Sharing waits for an internet connection.'}</p></div>}
     </fieldset>
     {error&&<p className="form-error" role="alert"><Info size={16}/>{error}</p>}
-    <button className="primary-button full-width" type="submit" disabled={saving||processing}>{sighting?<Eye size={18}/>:<Check size={18}/>}{saving?'Saving your memory…':processing?'Preparing photo…':initial?'Save changes':sighting?'Save sighting':'Confirm & save catch'}</button><p className="form-privacy"><ShieldCheck size={13}/>Your records and photos stay on this device.</p>
+    <button className="primary-button full-width" type="submit" disabled={saving||processing}>{sighting?<Eye size={18}/>:<Check size={18}/>}{saving?'Saving your memory…':processing?'Preparing photo…':initial?'Save changes':sighting?'Save sighting':'Confirm & save catch'}</button><p className="form-privacy"><ShieldCheck size={13}/>{share&&social.me?'Saved locally, with a copy shared with your mates.':'Your record and photo stay on this device.'}</p>
   </form></Dialog>;
 }

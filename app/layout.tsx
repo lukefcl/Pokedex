@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
+import OnlineProvider from '@/components/social/provider';
 
 export const metadata: Metadata = {
   title: 'FINDEX — Aotearoa Fish Field Guide',
@@ -12,5 +13,5 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, viewportFit:'cover', themeColor: '#c23e3f' };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en-NZ"><body>{children}<Analytics /></body></html>;
+  return <html lang="en-NZ"><body><OnlineProvider>{children}</OnlineProvider><Analytics /></body></html>;
 }
