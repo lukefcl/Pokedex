@@ -10,11 +10,11 @@ import SpeciesGuidance from './species-guidance';
 import {useSocial} from './social/provider';
 import SpeciesScanner from './scanner/species-scanner';
 import {ScanLine} from 'lucide-react';
+import { useCatchPosition } from './use-catch-position';
 
-type Props={selected:Fish;initial?:CatchRecord;scannedPhoto?:Blob|null;mode?:RecordKind;areaId:string;close:()=>void;onSave:(record:CatchRecord,share:boolean)=>Promise<void>};
+type Props={selected:Fish;initial?:CatchRecord;scannedPhoto?:Blob|null;mode?:RecordKind;areaId:string;close:()=>void;onSave:(record:CatchRecord)=>Promise<void>};
 export default function CatchForm({selected,areaId,close,onSave,initial,mode,scannedPhoto}:Props){
   const social=useSocial();
-  const [share,setShare]=useState(initial?social.isShared(initial.id):social.me?.autoShare||false);
   const [fishId,setFishId]=useState(initial?.fishId||selected.id);
   const [kind,setKind]=useState<RecordKind>(initial?recordKind(initial):mode||(selected.sightingOnly?'sighting':'catch'));
   const [customName,setCustomName]=useState(initial?.customName||'');
@@ -24,6 +24,7 @@ export default function CatchForm({selected,areaId,close,onSave,initial,mode,sca
   const [catchArea,setCatchArea]=useState(initial?.areaId||areaId);
   const [date,setDate]=useState(initial?.date||today());
   const [location,setLocation]=useState(initial?.location||'');
+  const {position,areaNote}=useCatchPosition(initial,sighting,setCatchArea);
   const [length,setLength]=useState(initial?.length||'');
   const [notes,setNotes]=useState(initial?.notes||'');
   const [released,setReleased]=useState(initial?.released??true);
@@ -45,7 +46,7 @@ export default function CatchForm({selected,areaId,close,onSave,initial,mode,sca
     if(!date||date>today()){setError('Choose today or an earlier record date.');return;}
     setSaving(true);
     try{
-      await onSave({id:initial?.id||createCatchId(),fishId,kind:sighting?'sighting':'catch',date,location:location.trim(),length:sighting?'':length,notes:notes.trim(),released:sighting?false:entry.protected||released,photo,quantity:Number(quantity),...(fishId==='other'?{customName:customName.trim()}:{}),createdAt:initial?.createdAt||new Date().toISOString(),areaId:sighting?'':catchArea},share);
+      await onSave({id:initial?.id||createCatchId(),fishId,kind:sighting?'sighting':'catch',date,location:location.trim(),...(position?{position}:{}),length:sighting?'':length,notes:notes.trim(),released:sighting?false:entry.protected||released,photo,quantity:sighting?Number(quantity):initial&&recordKind(initial)==='catch'?initial.quantity||1:1,...(fishId==='other'?{customName:customName.trim()}:{}),createdAt:initial?.createdAt||new Date().toISOString(),areaId:sighting?'':catchArea});
       if(navigator.storage?.persist)navigator.storage.persist().catch(()=>{});
     }catch(error){setError(error instanceof Error?error.message:'Could not save your record.');setSaving(false);}
   }
@@ -59,8 +60,9 @@ export default function CatchForm({selected,areaId,close,onSave,initial,mode,sca
       <label className="form-label">Record type<select aria-label="Record type" value={sighting?'sighting':'catch'} onChange={event=>setKind(event.target.value as RecordKind)}><option value="catch" disabled={entry.sightingOnly}>Catch</option><option value="sighting">Sighting</option></select></label>
       <label className="form-label">Species<select aria-label="Species" value={fishId} onChange={event=>{setFishId(event.target.value);const next=findFish(event.target.value);if(next?.sightingOnly)setKind('sighting');if(next?.protected)setReleased(true);}}><option value="other">Other / identify later</option>{fish.map(entry=><option key={entry.id} value={entry.id}>#{entry.id} · {entry.name}{entry.maori?` / ${entry.maori}`:''}{entry.sightingOnly?' · sightings only':''}</option>)}</select></label>
       {fishId==='other'&&<label className="form-label">Your name for this record<input required maxLength={120} value={customName} placeholder="e.g. Unknown reef fish" onChange={event=>setCustomName(event.target.value)}/></label>}
-      <label className="form-label">{sighting?'Number seen':'Quantity'}<input aria-label={sighting?'Number seen':'Quantity'} type="number" required min="1" max="9999" step="1" value={quantity} onChange={event=>setQuantity(event.target.value)}/></label>
+      {sighting&&<label className="form-label">Number seen<input aria-label="Number seen" type="number" required min="1" max="9999" step="1" value={quantity} onChange={event=>setQuantity(event.target.value)}/></label>}
       {!sighting&&<label className="form-label">Fishing area <span>(optional)</span><select aria-label="Catch fishing area" value={catchArea} onChange={event=>setCatchArea(event.target.value)}><option value="">Not recorded</option>{areas.map(area=><option key={area.id} value={area.id}>{area.label}</option>)}</select></label>}
+      {!sighting&&areaNote&&<p className="rule-detail-note" role="status">{areaNote}</p>}
       {entry.sightingOnly?<SpeciesGuidance fish={entry}/>:!sighting&&!rule&&(Number(entry.id)<=18&&!catchArea?<p className="rule-detail-note">Choose a fishing area to see saved regional limits.</p>:<SpeciesGuidance fish={entry}/>)}
       {rule&&<div className="form-rule-reference"><Ruler size={16}/><p>Saved reference: <strong>{sizeLabel(rule)}</strong> minimum · <strong>{bagLabel(rule)}</strong>. Check the Limits tab for local restrictions. Not a historical rules check.</p></div>}
       <div className={`photo-upload ${photo?'has-photo':''}`}>{photo?<><CatchPhoto photo={photo} alt={sighting?'Preview of your sighting':'Preview of your catch'}/><div className="change-photo"><button type="button" onClick={()=>uploadRef.current?.click()}><Camera size={15}/>Change photo</button>{sighting&&<button type="button" onClick={()=>setPhoto(null)}>Remove</button>}</div></>:<><ImagePlus size={29}/><strong>{processing?'Preparing your photo…':sighting?'Add a photo if you have one (optional).':'The fish. The proof. The memory.'}</strong><span>JPEG, PNG or WebP · up to 20 MB</span><div className="upload-actions"><button type="button" className="secondary-button" onClick={()=>uploadRef.current?.click()}><Upload size={15}/>Choose photo</button><button type="button" className="secondary-button" onClick={()=>cameraRef.current?.click()}><Camera size={15}/>Take photo</button></div></>}</div>
@@ -70,9 +72,9 @@ export default function CatchForm({selected,areaId,close,onSave,initial,mode,sca
       <label className="form-label">{sighting?'Where did you spot it?':'Where was the adventure?'} <span>(optional)</span><input aria-label="Location" maxLength={120} placeholder="e.g. Hauraki Gulf" value={location} onChange={event=>setLocation(event.target.value)}/></label>
       <label className="form-label">Field notes <span>(optional)</span><textarea aria-label="Field notes" maxLength={1000} rows={2} placeholder={sighting?'Behaviour, direction, conditions…':'The lure, the weather, the story…'} value={notes} onChange={event=>setNotes(event.target.value)}/></label>
       {!sighting&&<label className="release-checkbox"><input type="checkbox" checked={entry.protected||released} disabled={entry.protected} onChange={event=>setReleased(event.target.checked)}/><Waves size={18}/><span>{entry.protected?'Incidental catch / released (protected species)':'Released back to the water'}</span></label>}
-      {social.me&&<div className="sharing-choice"><label className="release-checkbox"><input type="checkbox" checked={share} disabled={!!initial&&!social.canShare(initial.id)} onChange={e=>setShare(e.target.checked)}/><span>Share with my accepted mates</span></label><p>{initial&&!social.canShare(initial.id)?'This record is linked to another online profile. Sign into that profile to update its sharing.':'Shares species, date, size, quantity, outcome and a photo thumbnail. Locations and notes stay private. Sharing waits for an internet connection.'}</p></div>}
+      {social.me&&<p className="social-privacy">{initial&&!social.canShare(initial.id)?'This record belongs to another online profile. Sign into that profile to sync changes.':'Automatically shared with your accepted mates. Place names, coordinates and notes stay out of mate feeds.'}</p>}
     </fieldset>
     {error&&<p className="form-error" role="alert"><Info size={16}/>{error}</p>}
-    <button className="primary-button full-width" type="submit" disabled={saving||processing}>{sighting?<Eye size={18}/>:<Check size={18}/>}{saving?'Saving your memory…':processing?'Preparing photo…':initial?'Save changes':sighting?'Save sighting':'Confirm & save catch'}</button><p className="form-privacy"><ShieldCheck size={13}/>{share&&social.me?'Saved locally, with a copy shared with your mates.':'Your record and photo stay on this device.'}</p>
+    <button className="primary-button full-width" type="submit" disabled={saving||processing}>{sighting?<Eye size={18}/>:<Check size={18}/>}{saving?'Saving your memory…':processing?'Preparing photo…':initial?'Save changes':sighting?'Save sighting':'Confirm & save catch'}</button><p className="form-privacy"><ShieldCheck size={13}/>{sighting?'Your journal saves locally. Online changes sync when connected.':social.me?'Available GPS coordinates sync to the admin-only map. Your catch saves even without a location.':'Your catch saves on this device, with GPS when available.'}</p>
   </form></Dialog>;
 }

@@ -65,7 +65,7 @@ export async function thumbnail(photo: Blob | null) {
   bitmap.close();
   return canvas.toDataURL('image/jpeg', 0.7);
 }
-export type Job = { user: string; id: string; remove: boolean; historic: boolean; version: string };
+export type Job = { user: string; id: string; remove: boolean; historic: boolean; version: string; deleted?: boolean };
 type Outbox = { owners: Record<string, string>; shares: Record<string, boolean>; jobs: Job[] };
 const KEY = 'findex-online-outbox-v1';
 export function readOutbox(): Outbox {
@@ -100,6 +100,33 @@ export function canShare(user: string, id: string) {
   return !owner || owner === user;
 }
 export function enqueueRemoval(id: string) {
-  const owner = readOutbox().owners[id];
-  if (owner) enqueue(owner, id, false);
+  const box = readOutbox();
+  const owner = box.owners[id];
+  if (!owner) return;
+  box.shares[id] = false;
+  box.jobs = box.jobs.filter((j) => j.id !== id);
+  box.jobs.push({ user: owner, id, remove: true, deleted: true, historic: true, version: `${Date.now()}-${Math.random()}` });
+  localStorage.setItem(KEY, JSON.stringify(box));
+  window.dispatchEvent(new Event('findex-outbox'));
+}
+
+// Upgrade previously private records and pick up guest logs when an account
+// connects. Keep existing live-catch jobs intact so migration never creates alerts.
+export function enqueueJournal(user: string, records: CatchRecord[]) {
+  const box = readOutbox();
+  let changed = false;
+  const jobs = new Map(box.jobs.filter((j) => j.user === user).map((j) => [j.id, j]));
+  for (const record of records) {
+    if (box.owners[record.id] && box.owners[record.id] !== user) continue;
+    const job = jobs.get(record.id);
+    if (job?.deleted || (box.shares[record.id] && !job?.remove)) continue;
+    box.owners[record.id] = user;
+    box.shares[record.id] = true;
+    jobs.set(record.id, { user, id: record.id, remove: false, historic: true, version: `${Date.now()}-${Math.random()}` });
+    changed = true;
+  }
+  if (changed) {
+    box.jobs = [...box.jobs.filter((j) => j.user !== user), ...jobs.values()];
+    localStorage.setItem(KEY, JSON.stringify(box));
+  }
 }

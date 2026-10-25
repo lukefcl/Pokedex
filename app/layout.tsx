@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
+import 'leaflet/dist/leaflet.css';
 import OnlineProvider from '@/components/social/provider';
 
 export const metadata: Metadata = {

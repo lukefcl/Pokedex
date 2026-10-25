@@ -1,7 +1,8 @@
 import { findFish, type RecordKind } from './fish';
 import { areaById } from './rules';
+import { validPosition, type CatchPosition } from './catch-location';
 
-export type CatchRecord = { id: string; fishId: string; date: string; location: string; length: string; notes: string; released: boolean; photo: Blob|null; kind?:RecordKind; createdAt: string; areaId?: string; customName?: string; quantity?: number };
+export type CatchRecord = { id: string; fishId: string; date: string; location: string; length: string; notes: string; released: boolean; photo: Blob|null; kind?:RecordKind; createdAt: string; areaId?: string; customName?: string; quantity?: number; position?: CatchPosition };
 export type BackupCatch = Omit<CatchRecord, 'photo'> & { photo: string|null };
 const DB_NAME = 'findex-device';
 function openDB(): Promise<IDBDatabase> {
@@ -67,6 +68,7 @@ export function validateBackup(input: unknown): CatchRecord[] {
     if (r.fishId === 'other' && !r.customName?.trim()) throw new Error('An unidentified record needs a name.');
     if (r.quantity !== undefined && (!Number.isInteger(r.quantity) || r.quantity < 1 || r.quantity > 9999)) throw new Error('Invalid quantity.');
     if (r.areaId !== undefined && (typeof r.areaId !== 'string' || (r.areaId !== '' && !areaById(r.areaId)))) throw new Error('The backup contains an unknown fishing area.');
+    if (r.position !== undefined && !validPosition(r.position)) throw new Error('The backup contains invalid catch coordinates.');
     let photo:Blob|null = null;
     if (r.photo !== null) {
       if (typeof r.photo !== 'string' || r.photo.length > 8_000_000 || !/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+=*$/.test(r.photo)) throw new Error('The backup contains an invalid photo.');
@@ -76,6 +78,6 @@ export function validateBackup(input: unknown): CatchRecord[] {
       photo=new Blob([bytes],{type:header.match(/data:(.*);/)![1]});
     } else if (kind !== 'sighting') throw new Error('A catch requires a photo.');
     seen.add(r.id);
-    return {id:r.id,fishId:r.fishId,kind,date:r.date,location:r.location,length:kind==='sighting'?'':r.length,notes:r.notes,released:kind==='sighting'?false:r.released,createdAt:r.createdAt,photo,...(r.customName?{customName:r.customName.trim()}:{}),...(r.quantity!==undefined?{quantity:r.quantity}:{}),...(r.areaId&&kind==='catch'?{areaId:r.areaId}:{})};
+    return {id:r.id,fishId:r.fishId,kind,date:r.date,location:r.location,length:kind==='sighting'?'':r.length,notes:r.notes,released:kind==='sighting'?false:r.released,createdAt:r.createdAt,photo,...(r.position?{position:r.position}:{}),...(r.customName?{customName:r.customName.trim()}:{}),...(r.quantity!==undefined?{quantity:r.quantity}:{}),...(r.areaId&&kind==='catch'?{areaId:r.areaId}:{})};
   });
 }

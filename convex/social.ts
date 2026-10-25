@@ -19,7 +19,8 @@ export const me = query({
   args: {},
   handler: async (ctx) => {
     const id = await getAuthUserId(ctx);
-    return id ? await profileFor(ctx, id) : null;
+    const profile = id ? await profileFor(ctx, id) : null;
+    return profile ? { ...profile, autoShare: true } : null;
   },
 });
 export const account = query({
@@ -44,24 +45,24 @@ export const setup = mutation({
       throw new ConvexError('Choose a name (2–30 characters) and a species avatar.');
     const old = await profileFor(ctx, id);
     if (old) {
-      await ctx.db.patch(old._id, { name, avatar: args.avatar });
+      await ctx.db.patch(old._id, { name, avatar: args.avatar, autoShare: true });
       return;
     }
     await ctx.db.insert('profiles', {
       userId: id,
       name,
       avatar: args.avatar,
-      autoShare: false,
+      autoShare: true,
       muteAlerts: false,
       createdAt: Date.now(),
     });
   },
 });
 export const preferences = mutation({
-  args: { autoShare: v.boolean(), muteAlerts: v.boolean() },
+  args: { autoShare: v.optional(v.boolean()), muteAlerts: v.boolean() },
   handler: async (ctx, args) => {
     const p = await requireProfile(ctx);
-    await ctx.db.patch(p._id, args);
+    await ctx.db.patch(p._id, { muteAlerts: args.muteAlerts, autoShare: true });
   },
 });
 export const home = query({

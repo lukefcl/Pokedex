@@ -12,6 +12,8 @@ import {
   enqueue,
   readOutbox,
   finishJob,
+  enqueueJournal,
+  enqueueRemoval,
 } from '../lib/social/client';
 import { validPushEndpoint, validPushKeys } from '../lib/social/push-validation';
 import type { CatchRecord } from '../lib/storage';
@@ -57,6 +59,57 @@ async function link(f: Awaited<ReturnType<typeof fixture>>) {
   const h = await f.alice.query(api.social.home, {});
   await f.alice.mutation(api.social.answer, { id: h.incoming[0]._id, accept: true });
 }
+
+describe('admin catch locations', () => {
+  afterEach(() => vi.unstubAllEnvs());
+  const position = { latitude: -36.79, longitude: 174.91, accuracy: 12, capturedAt: 1700000000000 };
+  const spot = { localId: 'position-one', fishId: '001', date: '2026-10-25', quantity: 2, position };
+  it('allows only server-designated admins; profile names cannot grant access', async () => {
+    const f = await fixture();
+    vi.stubEnv('FINDEX_ADMIN_USER_IDS', f.ids[0]);
+    expect((await f.alice.query(api.hotspots.access, {})).isAdmin).toBe(true);
+    expect((await f.bob.query(api.hotspots.access, {})).isAdmin).toBe(false);
+    await f.bob.mutation(api.social.setup, {name:'Nuggitz',avatar:'001'});
+    await expect(f.bob.query(api.hotspots.map, {since:'1970-01-01',fishId:''})).rejects.toThrow('Admin access');
+    await expect(f.t.query(api.hotspots.map, {since:'1970-01-01',fishId:''})).rejects.toThrow('Sign in');
+    vi.stubEnv('FINDEX_ADMIN_USER_IDS','');
+    await expect(f.alice.query(api.hotspots.map, {since:'1970-01-01',fishId:''})).rejects.toThrow('Admin access');
+  });
+  it('keeps exact points separate from mate feeds and works without publishing a catch', async () => {
+    const f = await fixture();
+    vi.stubEnv('FINDEX_ADMIN_USER_IDS', f.ids[0]);
+    await f.bob.mutation(api.hotspots.upsert, spot);
+    await link(f);
+    expect(await f.alice.query(api.social.feed, {})).toEqual([]);
+    const data = await f.alice.query(api.hotspots.map,{since:'2026-01-01',fishId:'001'});
+    expect(data.points).toEqual([{latitude:position.latitude,longitude:position.longitude,accuracy:12,fishId:'001',date:spot.date,quantity:2}]);
+    expect(data.points[0]).not.toHaveProperty('owner');
+    expect((await f.alice.query(api.hotspots.map,{since:'2026-10-26',fishId:''})).points).toEqual([]);
+    expect((await f.alice.query(api.hotspots.map,{since:'1970-01-01',fishId:'002'})).points).toEqual([]);
+    await f.t.mutation(internal.records.publish,{owner:f.ids[1],record:{...record,localId:spot.localId},historic:true});
+    const feed = await f.alice.query(api.social.feed,{});
+    expect(feed).toHaveLength(1);
+    expect(feed[0]).not.toHaveProperty('position');
+    const collection = await f.alice.query(api.social.collection,{id:f.ids[1]});
+    expect(collection?.recent[0]).not.toHaveProperty('position');
+  });
+  it('updates idempotently, scopes deletion to the owner and removes map points', async () => {
+    const f = await fixture();
+    vi.stubEnv('FINDEX_ADMIN_USER_IDS', f.ids[0]);
+    await f.bob.mutation(api.hotspots.upsert,spot);
+    await f.bob.mutation(api.hotspots.upsert,{...spot,quantity:4});
+    await f.eve.mutation(api.hotspots.remove,{localId:spot.localId});
+    expect((await f.alice.query(api.hotspots.map,{since:'1970-01-01',fishId:''})).points.map(p=>p.quantity)).toEqual([4]);
+    await f.bob.mutation(api.hotspots.remove,{localId:spot.localId});
+    expect((await f.alice.query(api.hotspots.map,{since:'1970-01-01',fishId:''})).points).toEqual([]);
+  });
+  it('rejects invalid coordinates, future readings, sightings and unauthenticated uploads', async () => {
+    const f = await fixture();
+    for (const p of [{...position,latitude:91},{...position,longitude:181},{...position,accuracy:-1},{...position,capturedAt:Date.now()+3600000}]) await expect(f.bob.mutation(api.hotspots.upsert,{...spot,position:p})).rejects.toThrow('Invalid catch position');
+    await expect(f.bob.mutation(api.hotspots.upsert,{...spot,fishId:'075'})).rejects.toThrow('Invalid catch details');
+    await expect(f.t.mutation(api.hotspots.upsert,spot)).rejects.toThrow('Sign in');
+  });
+});
 
 describe('suggested mates', () => {
   async function graph() {
@@ -166,6 +219,19 @@ describe('suggested mates', () => {
 describe('private online FINDEX', () => {
   beforeEach(() => vi.useFakeTimers());
   afterEach(() => vi.useRealTimers());
+  it('enables automatic sharing for new and existing profiles and ignores old opt-out settings', async () => {
+    const f = await fixture();
+    expect((await f.alice.query(api.social.me, {}))?.autoShare).toBe(true);
+    await f.alice.mutation(api.social.preferences,{autoShare:false,muteAlerts:true});
+    const alice = await f.alice.query(api.social.me,{});
+    expect(alice).toMatchObject({autoShare:true,muteAlerts:true});
+    await f.alice.mutation(api.social.preferences,{muteAlerts:false});
+    expect((await f.alice.query(api.social.me,{}))?.muteAlerts).toBe(false);
+    const id = await f.t.run((ctx) => ctx.db.insert('users',{}));
+    const newcomer = f.t.withIdentity({subject:`${id}|session`});
+    await newcomer.mutation(api.social.setup,{name:'New mate',avatar:'001'});
+    expect((await newcomer.query(api.social.me,{}))?.autoShare).toBe(true);
+  });
   it('requires authentication and mutual approval before journal access', async () => {
     const f = await fixture();
     await expect(f.t.query(api.social.home, {})).rejects.toThrow('Sign in');
@@ -324,6 +390,45 @@ describe('private online FINDEX', () => {
   });
 });
 describe('device isolation and client payloads', () => {
+  afterEach(() => vi.unstubAllGlobals());
+  it('automatically migrates old private and guest records without duplicating live catch jobs', () => {
+    const values = new Map<string, string>();
+    vi.stubGlobal('localStorage', { getItem: (k: string) => values.get(k) || null, setItem: (k: string, v: string) => values.set(k, v) });
+    vi.stubGlobal('window', { dispatchEvent: () => {} });
+    enqueue('alice', 'private', false);
+    enqueue('alice', 'new', true, false);
+    enqueue('bob', 'bobs-catch', false);
+    const liveJob = readOutbox().jobs.find((j) => j.id === 'new');
+    const records = ['guest','private','new','bobs-catch'].map((id) => ({id}) as CatchRecord);
+    enqueueJournal('alice', records);
+    const first = readOutbox();
+    expect(first.jobs.filter((j) => j.user === 'alice')).toHaveLength(3);
+    expect(first.jobs.find((j) => j.id === 'new')).toEqual(liveJob);
+    expect(first.jobs.find((j) => j.id === 'private')).toMatchObject({remove:false,historic:true});
+    expect(first.jobs.find((j) => j.id === 'guest')).toMatchObject({remove:false,historic:true});
+    expect(first.owners['bobs-catch']).toBe('bob');
+    expect(first.shares['bobs-catch']).toBe(false);
+    enqueueJournal('alice',records);
+    expect(readOutbox()).toEqual(first);
+    for (const job of first.jobs.filter((j) => j.user === 'alice')) finishJob(job);
+    enqueueJournal('alice',records);
+    expect(readOutbox().jobs.filter((j) => j.user === 'alice')).toEqual([]);
+  });
+  it('automatic journal sync preserves pending deletions and newer edits during retries', () => {
+    const values = new Map<string,string>();
+    vi.stubGlobal('localStorage',{getItem:(k:string)=>values.get(k)||null,setItem:(k:string,v:string)=>values.set(k,v)});
+    vi.stubGlobal('window',{dispatchEvent:()=>{}});
+    enqueue('alice','deleted',true);
+    enqueueRemoval('deleted');
+    enqueueJournal('alice',[{id:'deleted'} as CatchRecord]);
+    expect(readOutbox().jobs).toHaveLength(1);
+    expect(readOutbox().jobs[0]).toMatchObject({remove:true,deleted:true});
+    enqueueJournal('alice',[{id:'past'} as CatchRecord]);
+    const stale = readOutbox().jobs.find((j) => j.id === 'past')!;
+    enqueue('alice','past',true);
+    finishJob(stale);
+    expect(readOutbox().jobs.find((j) => j.id === 'past')).toMatchObject({historic:false});
+  });
   it('uses separate recovery keys and strictly parses same-origin invites', () => {
     const r = newRecovery();
     expect(parseRecovery(r)).toEqual(r);

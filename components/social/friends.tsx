@@ -17,7 +17,6 @@ import QRCode from 'qrcode';
 import { api } from '@/convex/_generated/api';
 import type { Id } from '@/convex/_generated/dataModel';
 import { fish, findFish, unidentified } from '@/lib/fish';
-import { getCatches } from '@/lib/storage';
 import { newRecovery, parseRecovery, inviteToken, type Recovery } from '@/lib/social/client';
 import { useSocial } from './provider';
 import FishSprite from '../fish-sprite';
@@ -25,6 +24,7 @@ import QrScanner from './qr-scanner';
 import Notifications, { disconnectPush } from './notifications';
 import SharedCard from './shared-card';
 import SuggestedMates from './suggested-mates';
+import AdminHotspots from '../admin/hotspots';
 function message(e: unknown) {
   return e instanceof Error
     ? e.message.replace(/\[CONVEX[^]*?Uncaught ConvexError: /, '').split('\n')[0]
@@ -192,8 +192,8 @@ function OnlineFriends() {
             </select>
           </label>
           <p className="social-privacy">
-            Sharing is optional. Shared records include species, date, size, quantity, outcome and a
-            photo thumbnail. Locations and field notes stay on your device.
+            All catches and sightings automatically sync with accepted mates when signed in, including previous records on this device. Shared records include species, date, size, quantity, outcome and a
+            photo thumbnail. New catches use GPS when available; exact catch coordinates sync to an admin-only fishing map. Mates cannot see coordinates. Place names and notes stay on your device.
           </p>
           <button
             className="primary-button full-width"
@@ -280,7 +280,7 @@ function Member({
     cancel = useMutation(api.social.cancelRequest),
     createInvite = useAction(api.invites.create),
     request = useMutation(api.social.request);
-  const [view, setView] = useState<'feed' | 'mates' | 'qr' | 'settings'>('feed'),
+  const [view, setView] = useState<'feed' | 'mates' | 'qr' | 'settings' | 'map'>('feed'),
     [selected, setSelected] = useState<Id<'users'> | null>(null),
     [error, setError] = useState(''),
     [busy, setBusy] = useState(false),
@@ -431,12 +431,12 @@ function Member({
       </div>
       {s.pending > 0 && (
         <p className="social-banner">
-          {s.pending} sharing {s.pending === 1 ? 'change' : 'changes'} waiting to sync.
+          {s.pending} online {s.pending === 1 ? 'change' : 'changes'} waiting to sync.
         </p>
       )}
       {s.syncError && (
         <div className="social-banner">
-          <span>Sharing paused: {message(new Error(s.syncError))}</span>
+          <span>Online sync paused: {message(new Error(s.syncError))}</span>
           <button onClick={s.retry}>Retry</button>
         </div>
       )}
@@ -465,6 +465,7 @@ function Member({
           )}
         </>
       )}
+      {view === 'map' && s.isAdmin && <><button className="text-button" onClick={() => setView('settings')}>← Back to setup</button><AdminHotspots/></>}
       {view === 'mates' && (
         <>
           <div className="social-actions">
@@ -652,22 +653,10 @@ function Member({
       )}
       {view === 'settings' && (
         <>
+          {s.isAdmin && <div className="social-setting"><strong>Admin tools</strong><p>Catch locations and fishing density. Restricted to your admin account.</p><button className="secondary-button full-width" onClick={() => setView('map')}>Open fishing hotspot map</button></div>}
           <div className="social-setting">
-            <strong>Sharing defaults</strong>
-            <label className="release-checkbox">
-              <input
-                type="checkbox"
-                checked={me.autoShare}
-                onChange={(e) =>
-                  run(() => preferences({ autoShare: e.target.checked, muteAlerts: me.muteAlerts }))
-                }
-              />
-              <span>Share new catches with accepted mates</span>
-            </label>
-            <p>
-              Each record has its own sharing switch. Previous records stay private until you choose
-              to share them.
-            </p>
+            <strong>Shared with your mates</strong>
+            <p>All catches and sightings automatically sync with your accepted mates, including previous records on this device. Offline records sync when you reconnect.</p>
           </div>
           <Notifications />
           <label className="release-checkbox">
@@ -675,44 +664,11 @@ function Member({
               type="checkbox"
               checked={me.muteAlerts}
               onChange={(e) =>
-                run(() => preferences({ autoShare: me.autoShare, muteAlerts: e.target.checked }))
+                run(() => preferences({ muteAlerts: e.target.checked }))
               }
             />
             <span>Mute all catch toasts & push alerts</span>
           </label>
-          <div className="social-setting">
-            <strong>Share previous memories</strong>
-            <p>
-              Share local records from this device with your mates, without sending old catch
-              notifications. Private locations and notes stay local.
-            </p>
-            {confirm === 'history' ? (
-              <div className="social-confirm">
-                <p>Upload this device’s eligible journal entries and photo thumbnails?</p>
-                <button
-                  className="primary-button full-width"
-                  disabled={busy}
-                  onClick={() =>
-                    run(async () => {
-                      for (const r of await getCatches()) {
-                        if (s.canShare(r.id)) s.share(r, true, true);
-                      }
-                      setConfirm('');
-                    })
-                  }
-                >
-                  Share my previous records
-                </button>
-                <button className="text-button" onClick={() => setConfirm('')}>
-                  Cancel
-                </button>
-              </div>
-            ) : (
-              <button className="secondary-button full-width" onClick={() => setConfirm('history')}>
-                Choose to share this journal
-              </button>
-            )}
-          </div>
           <div className="social-setting">
             <strong>Your account</strong>
             <p>

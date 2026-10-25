@@ -8,6 +8,7 @@ import type { CatchRecord } from '@/lib/storage';
 import { getCatches } from '@/lib/storage';
 import {
   enqueue,
+  enqueueJournal,
   enqueueRemoval,
   canShare,
   readOutbox,
@@ -17,6 +18,7 @@ import {
   thumbnail,
 } from '@/lib/social/client';
 import { findFish } from '@/lib/fish';
+import { queuePosition, removePosition, locationQueue, finishPosition } from '@/lib/hotspot-sync';
 type Social = {
   configured: boolean;
   me: Doc<'profiles'> | null | undefined;
@@ -26,12 +28,14 @@ type Social = {
   syncError: string;
   toast: string;
   dismiss: () => void;
-  share: (record: CatchRecord, value: boolean, historic?: boolean) => void;
+  share: (record: CatchRecord, historic?: boolean) => void;
   remove: (id: string) => void;
   isOwned: (id: string) => boolean;
   canShare: (id: string) => boolean;
   isShared: (id: string) => boolean;
   retry: () => void;
+  isAdmin: boolean;
+  syncLocation: (record: CatchRecord) => void;
 };
 const fallback: Social = {
   configured: false,
@@ -43,11 +47,13 @@ const fallback: Social = {
   toast: '',
   dismiss: () => {},
   share: () => {},
-  remove: enqueueRemoval,
+  remove: (id) => { removePosition(id); enqueueRemoval(id); },
   isOwned: () => false,
   canShare: () => false,
   isShared: () => false,
   retry: () => {},
+  isAdmin: false,
+  syncLocation: () => {},
 };
 const Context = createContext<Social>(fallback);
 export const useSocial = () => useContext(Context);
@@ -66,6 +72,9 @@ function Connected({ children }: { children: ReactNode }) {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const me = useQuery(api.social.me, isAuthenticated ? {} : 'skip');
   const alerts = useQuery(api.social.alerts, me ? {} : 'skip');
+  const access = useQuery(api.hotspots.access, me ? {} : 'skip');
+  const uploadPosition = useMutation(api.hotspots.upsert);
+  const removeLocation = useMutation(api.hotspots.remove);
   const publish = useAction(api.sharing.publish);
   const removeRemote = useMutation(api.records.remove);
   const [tick, setTick] = useState(0),
@@ -119,14 +128,30 @@ function Connected({ children }: { children: ReactNode }) {
     async function flush() {
       running.current = true;
       try {
+        const records = await getCatches();
+        if (cancelled) return;
+        enqueueJournal(user, records);
+        const byId = new Map(records.map((record) => [record.id, record]));
         const jobs = readOutbox().jobs.filter((j) => j.user === user);
-        setPending(jobs.length);
+        const positionJobs = locationQueue().jobs.filter((j) => j.user === user);
+        const remaining = () => readOutbox().jobs.filter((j) => j.user === user).length + locationQueue().jobs.filter((j) => j.user === user).length;
+        setPending(remaining());
         if (!navigator.onLine) return;
+        for (const job of positionJobs) {
+          if (cancelled) break;
+          if (job.remove) await removeLocation({ localId: job.id });
+          else {
+            const record = byId.get(job.id);
+            if (record?.position) await uploadPosition({ localId: record.id, fishId: record.fishId, date: record.date, quantity: record.quantity || 1, position: record.position });
+          }
+          finishPosition(job);
+          setPending(remaining());
+        }
         for (const job of jobs) {
           if (cancelled) break;
           if (job.remove) await removeRemote({ localId: job.id });
           else {
-            const r = (await getCatches()).find((r) => r.id === job.id);
+            const r = byId.get(job.id);
             if (r)
               await publish({
                 record: sharedFields(r),
@@ -135,7 +160,7 @@ function Connected({ children }: { children: ReactNode }) {
               });
           }
           finishJob(job);
-          setPending(readOutbox().jobs.filter((j) => j.user === user).length);
+          setPending(remaining());
         }
         setError('');
       } catch (error) {
@@ -149,9 +174,11 @@ function Connected({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, [me?.userId, tick, publish, removeRemote]);
+  }, [me?.userId, tick, publish, removeRemote, uploadPosition, removeLocation]);
   const value: Social = {
     configured: true,
+    isAdmin: access?.isAdmin || false,
+    syncLocation: (record) => { if (me && canShare(me.userId, record.id)) queuePosition(me.userId, record); },
     me,
     authenticated: isAuthenticated,
     loading: isLoading,
@@ -159,11 +186,11 @@ function Connected({ children }: { children: ReactNode }) {
     syncError,
     toast,
     dismiss: () => setToast(''),
-    share: (r, yes, historic = false) => {
-      if (me && canShare(me.userId, r.id)) enqueue(me.userId, r.id, yes, historic);
-      else if (yes) throw new Error('Sign into this record’s original online profile to share it.');
+    share: (r, historic = false) => {
+      if (me && canShare(me.userId, r.id)) enqueue(me.userId, r.id, true, historic);
+      else if (me) throw new Error('Sign into this record’s original online profile to sync it.');
     },
-    remove: enqueueRemoval,
+    remove: (id) => { removePosition(id); enqueueRemoval(id); },
     isOwned: (id) => !!me && ownedBy(me.userId, id),
     canShare: (id) => {
       try {

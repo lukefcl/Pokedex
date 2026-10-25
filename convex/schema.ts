@@ -3,6 +3,11 @@ import { v } from 'convex/values';
 import { authTables } from '@convex-dev/auth/server';
 export default defineSchema({
   ...authTables,
+  catchLocations: defineTable({
+    owner: v.id('users'), localId: v.string(), fishId: v.string(), date: v.string(), quantity: v.number(),
+    position: v.object({ latitude: v.number(), longitude: v.number(), accuracy: v.number(), capturedAt: v.number() }),
+    updatedAt: v.number(),
+  }).index('by_owner_local', ['owner', 'localId']).index('by_date', ['date']).index('by_species_date', ['fishId', 'date']),
   profiles: defineTable({
     userId: v.id('users'),
     name: v.string(),
